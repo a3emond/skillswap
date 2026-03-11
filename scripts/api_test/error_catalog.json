@@ -1,0 +1,209 @@
+[
+  {
+    "module": "auth",
+    "case": "login_missing",
+    "method": "POST",
+    "endpoint": "/auth/login",
+    "status": 400,
+    "error": "Email and password are required",
+    "suggested_username": null
+  },
+  {
+    "module": "jobs",
+    "case": "update_invalid",
+    "method": "PATCH",
+    "endpoint": "/jobs/69b1739657fbb2b33d074e3d",
+    "status": 400,
+    "error": "Invalid status",
+    "suggested_username": null
+  },
+  {
+    "module": "auth",
+    "case": "register_invalid",
+    "method": "POST",
+    "endpoint": "/auth/register",
+    "status": 400,
+    "error": "Invalid username",
+    "suggested_username": null
+  },
+  {
+    "module": "auth",
+    "case": "register_missing",
+    "method": "POST",
+    "endpoint": "/auth/register",
+    "status": 400,
+    "error": "Missing required fields",
+    "suggested_username": null
+  },
+  {
+    "module": "jobs",
+    "case": "update_empty",
+    "method": "PATCH",
+    "endpoint": "/jobs/69b1739657fbb2b33d074e3d",
+    "status": 400,
+    "error": "No valid fields to update",
+    "suggested_username": null
+  },
+  {
+    "module": "jobs",
+    "case": "complete_not_progress",
+    "method": "PATCH",
+    "endpoint": "/jobs/69b1739657fbb2b33d074e3d/complete",
+    "status": 400,
+    "error": "Only in-progress jobs can be completed",
+    "suggested_username": null
+  },
+  {
+    "module": "prop",
+    "case": "delete_not_pending",
+    "method": "DELETE",
+    "endpoint": "/proposals/69b1739957fbb2b33d074e3f",
+    "status": 400,
+    "error": "Only pending proposals can be deleted",
+    "suggested_username": null
+  },
+  {
+    "module": "rev",
+    "case": "bad_rating",
+    "method": "POST",
+    "endpoint": "/jobs/69b1739657fbb2b33d074e3e/reviews",
+    "status": 400,
+    "error": "Reviews are allowed only for completed jobs",
+    "suggested_username": null
+  },
+  {
+    "module": "jobs",
+    "case": "search_budget",
+    "method": "POST",
+    "endpoint": "/jobs/search",
+    "status": 400,
+    "error": "min_budget must be numeric",
+    "suggested_username": null
+  },
+  {
+    "module": "prop",
+    "case": "missing",
+    "method": "POST",
+    "endpoint": "/jobs/69b1739657fbb2b33d074e3d/proposals",
+    "status": 400,
+    "error": "price and cover_letter/message are required",
+    "suggested_username": null
+  },
+  {
+    "module": "rev",
+    "case": "wrong_target",
+    "method": "POST",
+    "endpoint": "/jobs/69b1739657fbb2b33d074e3e/reviews",
+    "status": 400,
+    "error": "target_id and rating are required",
+    "suggested_username": null
+  },
+  {
+    "module": "rev",
+    "case": "target_missing",
+    "method": "POST",
+    "endpoint": "/jobs/69b1739657fbb2b33d074e3e/reviews",
+    "status": 400,
+    "error": "target_id must be the other participant",
+    "suggested_username": null
+  },
+  {
+    "module": "auth",
+    "case": "login_bad",
+    "method": "POST",
+    "endpoint": "/auth/login",
+    "status": 401,
+    "error": "Invalid credentials",
+    "suggested_username": null
+  },
+  {
+    "module": "users",
+    "case": "me_invalid_token",
+    "method": "GET",
+    "endpoint": "/users/me",
+    "status": 401,
+    "error": "Invalid token",
+    "suggested_username": null
+  },
+  {
+    "module": "users",
+    "case": "me_no_token",
+    "method": "GET",
+    "endpoint": "/users/me",
+    "status": 401,
+    "error": "Missing or invalid Authorization header",
+    "suggested_username": null
+  },
+  {
+    "module": "jobs",
+    "case": "update_forbidden",
+    "method": "PATCH",
+    "endpoint": "/jobs/69b1739657fbb2b33d074e3d",
+    "status": 403,
+    "error": "Forbidden",
+    "suggested_username": null
+  },
+  {
+    "module": "prop",
+    "case": "own",
+    "method": "POST",
+    "endpoint": "/jobs/69b1739657fbb2b33d074e3d/proposals",
+    "status": 403,
+    "error": "You cannot submit a proposal to your own job",
+    "suggested_username": null
+  },
+  {
+    "module": "jobs",
+    "case": "get_missing",
+    "method": "GET",
+    "endpoint": "/jobs/999999",
+    "status": 404,
+    "error": "Job not found",
+    "suggested_username": null
+  },
+  {
+    "module": "prop",
+    "case": "accept_missing",
+    "method": "PATCH",
+    "endpoint": "/proposals/999999/accept",
+    "status": 404,
+    "error": "Proposal not found",
+    "suggested_username": null
+  },
+  {
+    "module": "users",
+    "case": "not_found",
+    "method": "GET",
+    "endpoint": "/users/unknown",
+    "status": 404,
+    "error": "User not found",
+    "suggested_username": null
+  },
+  {
+    "module": "auth",
+    "case": "email_duplicate",
+    "method": "POST",
+    "endpoint": "/auth/register",
+    "status": 409,
+    "error": "Email already in use",
+    "suggested_username": null
+  },
+  {
+    "module": "auth",
+    "case": "username_duplicate",
+    "method": "POST",
+    "endpoint": "/auth/register",
+    "status": 409,
+    "error": "Username already in use",
+    "suggested_username": "client_17732371383242"
+  },
+  {
+    "module": "prop",
+    "case": "duplicate",
+    "method": "POST",
+    "endpoint": "/jobs/69b1739657fbb2b33d074e3d/proposals",
+    "status": 409,
+    "error": "You already have a pending proposal for this job",
+    "suggested_username": null
+  }
+]
