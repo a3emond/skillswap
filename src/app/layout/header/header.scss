@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+}
+
+.header-inner {
+  width: min(100% - 2rem, var(--container-width));
+  margin-inline: auto;
+  padding: 1rem 0;
+  text-align: center;
+}

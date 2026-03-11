@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* HEADER scrolls away */
+
+app-header {
+  flex: 0 0 auto;
+}
+
+/* NAVBAR stays visible */
+
+app-navbar {
+  flex: 0 0 auto;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+/* CONTENT SCROLL AREA */
+
+.app-main {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* CENTERED CONTENT */
+
+.app-content {
+  width: min(100% - 2rem, var(--container-width));
+  margin-inline: auto;
+  padding-block: var(--space-xl);
+}
+
+/* FOOTER pinned bottom */
+
+app-footer {
+  flex: 0 0 auto;
+}

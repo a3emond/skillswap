@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+}
+
+.footer-inner {
+  position: relative;
+
+  width: min(100% - 2rem, var(--container-width));
+  margin-inline: auto;
+  padding: .5rem 0;
+
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.footer-text {
+  font-size: 0.85rem;
+}
+
+.footer-github {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  transition: color .2s ease;
+}
+
+.footer-github:hover {
+  color: var(--color-text);
+}

@@ -1,0 +1,147 @@
+:host {
+  display: block;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+}
+
+/* navbar container */
+
+.nav-inner {
+  width: min(100% - 2rem, var(--container-width));
+  margin-inline: auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 56px;
+}
+
+/* desktop links */
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  padding: .5rem .75rem;
+  border-radius: var(--radius-md);
+  color: var(--color-text-soft);
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+/* controls */
+
+.nav-controls {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+
+.nav-btn {
+  min-height: 36px;
+  padding: 0 .75rem;
+}
+
+/* burger */
+
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.burger span {
+  height: 2px;
+  width: 22px;
+  background: var(--color-text);
+  transition: .25s;
+}
+
+/* burger animation */
+
+.burger.open span:nth-child(1) {
+  transform: rotate(45deg) translateY(6px);
+}
+
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.open span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-6px);
+}
+
+/* mobile menu */
+
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+
+  padding: 1rem;
+
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+}
+
+.menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.menu-section a {
+  padding: .6rem 0;
+}
+
+.menu-btn {
+  padding: .6rem 0;
+  text-align: left;
+}
+
+.mobile-menu hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+}
+
+/* mobile layout */
+
+@media (max-width: 768px) {
+
+  /* hide desktop navigation */
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav-controls {
+  margin-left: auto;
+}
+
+  /* hide header controls on mobile
+     (they appear inside the burger menu instead) */
+
+  .nav-controls .nav-btn {
+    display: none;
+  }
+
+  /* keep burger visible */
+
+  .burger {
+    display: flex;
+  }
+
+}

@@ -1,1 +1,97 @@
-<p>navbar works!</p>
+<nav class="navbar">
+
+  <div class="nav-inner">
+
+    <!-- desktop navigation -->
+
+    <div class="nav-links">
+
+      <a routerLink="/jobs" class="nav-link">
+        {{ 'nav.jobs' | t }}
+      </a>
+
+      <a routerLink="/jobs/my-postings" class="nav-link">
+        {{ 'nav.my_postings' | t }}
+      </a>
+
+      <a routerLink="/proposals/my-bids" class="nav-link">
+        {{ 'nav.my_bids' | t }}
+      </a>
+
+      <a routerLink="/platform/stats" class="nav-link">
+        {{ 'nav.platform_stats' | t }}
+      </a>
+
+    </div>
+
+    <!-- desktop controls -->
+
+    <div class="nav-controls">
+
+      <button class="nav-btn" (click)="toggleLang()">
+        {{ currentLang() === 'en' ? 'FR' : 'EN' }}
+      </button>
+
+      <button class="nav-btn" (click)="toggleTheme()">
+        Theme
+      </button>
+
+      <!-- burger -->
+
+      <button
+        class="burger"
+        [class.open]="menuOpen"
+        (click)="toggleMenu()"
+        aria-label="menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- MOBILE MENU -->
+
+  <div class="mobile-menu" *ngIf="menuOpen">
+
+    <div class="menu-section">
+
+      <a routerLink="/jobs" (click)="closeMenu()">
+        {{ 'nav.jobs' | t }}
+      </a>
+
+      <a routerLink="/jobs/my-postings" (click)="closeMenu()">
+        {{ 'nav.my_postings' | t }}
+      </a>
+
+      <a routerLink="/proposals/my-bids" (click)="closeMenu()">
+        {{ 'nav.my_bids' | t }}
+      </a>
+
+      <a routerLink="/platform/stats" (click)="closeMenu()">
+        {{ 'nav.platform_stats' | t }}
+      </a>
+
+    </div>
+
+    <hr>
+
+    <div class="menu-section">
+
+      <button class="menu-btn" (click)="toggleLang()">
+        {{ currentLang() === 'en' ? 'FR' : 'EN' }}
+      </button>
+
+      <button class="menu-btn" (click)="toggleTheme()">
+        Theme
+      </button>
+
+    </div>
+
+  </div>
+
+</nav>

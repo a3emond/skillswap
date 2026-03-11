@@ -1,0 +1,50 @@
+{
+  "errors": {
+    "Email and password are required": "Email et mot de passe requis",
+    "Invalid credentials": "Identifiants invalides",
+    "Missing required fields": "Champs obligatoires manquants",
+    "Invalid username": "Nom d'utilisateur invalide",
+    "Email already in use": "Email déjà utilisé",
+    "Username already in use": "Nom d'utilisateur déjà utilisé",
+    "Invalid token": "Jeton invalide",
+    "Missing or invalid Authorization header": "En-tête Authorization manquant ou invalide",
+    "Forbidden": "Accès interdit",
+    "Job not found": "Offre introuvable",
+    "Proposal not found": "Proposition introuvable",
+    "User not found": "Utilisateur introuvable",
+    "min_budget must be numeric": "Le budget minimum doit être numérique",
+    "Invalid status": "Statut invalide",
+    "No valid fields to update": "Aucun champ valide à modifier",
+    "Only in-progress jobs can be completed": "Seuls les projets en cours peuvent être complétés",
+    "price and cover_letter/message are required": "Le prix et le message sont requis",
+    "You cannot submit a proposal to your own job": "Vous ne pouvez pas proposer pour votre propre offre",
+    "Only pending proposals can be deleted": "Seules les propositions en attente peuvent être supprimées",
+    "Reviews are allowed only for completed jobs": "Les avis sont permis seulement pour les projets complétés",
+    "target_id and rating are required": "La cible et la note sont requises",
+    "target_id must be the other participant": "La cible doit être l'autre participant",
+    "You already have a pending proposal for this job": "Vous avez déjà une proposition en attente pour cette offre"
+  },
+
+  "nav": {
+    "jobs": "Offres",
+    "my_postings": "Mes offres",
+    "my_bids": "Mes propositions",
+    "profile": "Mon profil",
+    "platform_stats": "Statistiques",
+    "login": "Connexion",
+    "register": "Inscription",
+    "logout": "Déconnexion"
+  },
+
+  "common": {
+    "submit": "Soumettre",
+    "cancel": "Annuler",
+    "loading": "Chargement...",
+    "confirm": "Confirmer"
+  },
+
+  "auth": {
+    "login_title": "Connexion",
+    "register_title": "Inscription"
+  }
+}

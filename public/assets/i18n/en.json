@@ -1,0 +1,50 @@
+{
+  "errors": {
+    "Email and password are required": "Email and password are required",
+    "Invalid credentials": "Invalid credentials",
+    "Missing required fields": "Missing required fields",
+    "Invalid username": "Invalid username",
+    "Email already in use": "Email already in use",
+    "Username already in use": "Username already in use",
+    "Invalid token": "Invalid token",
+    "Missing or invalid Authorization header": "Missing or invalid Authorization header",
+    "Forbidden": "Forbidden",
+    "Job not found": "Job not found",
+    "Proposal not found": "Proposal not found",
+    "User not found": "User not found",
+    "min_budget must be numeric": "Minimum budget must be numeric",
+    "Invalid status": "Invalid job status",
+    "No valid fields to update": "No valid fields to update",
+    "Only in-progress jobs can be completed": "Only in-progress jobs can be completed",
+    "price and cover_letter/message are required": "Price and message are required",
+    "You cannot submit a proposal to your own job": "You cannot submit a proposal to your own job",
+    "Only pending proposals can be deleted": "Only pending proposals can be deleted",
+    "Reviews are allowed only for completed jobs": "Reviews are allowed only for completed jobs",
+    "target_id and rating are required": "Target user and rating are required",
+    "target_id must be the other participant": "Target user must be the other participant",
+    "You already have a pending proposal for this job": "You already have a pending proposal for this job"
+  },
+
+  "nav": {
+    "jobs": "Jobs",
+    "my_postings": "My Postings",
+    "my_bids": "My Bids",
+    "profile": "My Profile",
+    "platform_stats": "Platform Stats",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+
+  "common": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "confirm": "Confirm"
+  },
+
+  "auth": {
+    "login_title": "Login",
+    "register_title": "Register"
+  }
+}
