@@ -49,6 +49,60 @@
 
   "auth": {
     "login_title": "Login",
-    "register_title": "Register"
+    "register_title": "Register",
+
+    "login_subtitle": "Access your SkillSwap account to manage jobs, proposals, and reviews.",
+    "register_subtitle": "Create your SkillSwap account to start working with clients and freelancers.",
+
+    "fields": {
+      "name": "Name",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "bio": "Bio",
+      "skills": "Skills"
+    },
+
+    "placeholders": {
+      "email": "Enter your email",
+      "password": "Enter your password"
+    },
+
+    "skills_hint": "Example: Angular, Node, UI Design",
+
+    "actions": {
+      "login": "Login",
+      "register": "Register",
+      "go_login": "Login",
+      "go_register": "Create an account",
+      "logging_in": "Signing in...",
+      "registering": "Creating account..."
+    },
+
+    "register_prompt": "Don't have an account yet?",
+    "login_prompt": "Already have an account?",
+
+    "username_suggestion": "Suggested username:",
+
+    "validation": {
+      "name_required": "Name is required",
+      "name_minlength": "Name must contain at least 2 characters",
+
+      "username_required": "Username is required",
+      "username_minlength": "Username must contain at least 3 characters",
+
+      "email_required": "Email is required",
+      "email_invalid": "Enter a valid email address",
+
+      "password_required": "Password is required",
+      "password_minlength": "Password must be at least 6 characters",
+
+      "bio_required": "Bio is required",
+      "bio_minlength": "Bio must contain at least 10 characters",
+
+      "skills_required": "At least one skill is required"
+    }
   }
+
+
 }

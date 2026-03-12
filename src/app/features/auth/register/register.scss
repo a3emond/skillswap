@@ -1,0 +1,49 @@
+:host {
+  display: block;
+}
+
+.register-page {
+  width: min(100% - 2rem, 36rem);
+  margin-inline: auto;
+  padding: 2rem 0 3rem;
+}
+
+.register-card {
+  width: 100%;
+}
+
+.suggestion {
+  border: 1px dashed var(--color-border);
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding-right: 2.5rem;
+}
+
+.icon-btn {
+  position: absolute;
+  right: .5rem;
+  top: 50%;
+  transform: translateY(-50%);
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--color-text-muted);
+}
+
+.icon-btn:hover {
+  color: var(--color-text);
+}

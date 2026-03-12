@@ -1,1 +1,186 @@
-<p>register works!</p>
+<section class="register-page">
+  <div class="register-card card stack-lg animate-fade-in-up">
+
+    <header class="stack-sm">
+      <div class="inline">
+        <i class="icon fas fa-user-plus"></i>
+        <h1>{{ 'auth.register_title' | t }}</h1>
+      </div>
+
+      <p class="text-soft">
+        {{ 'auth.register_subtitle' | t }}
+      </p>
+    </header>
+
+    @if (formErrors.length > 0) {
+      <app-form-error-summary
+        [errors]="formErrors">
+      </app-form-error-summary>
+    }
+
+    @if (apiErrorMessage()) {
+      <app-alert-error
+        [message]="apiErrorMessage()">
+      </app-alert-error>
+    }
+
+    @if (successMessage()) {
+      <app-alert-success
+        [message]="successMessage()">
+      </app-alert-success>
+    }
+
+
+    @if (suggestedUsername()) {
+      <div class="suggestion card stack-xs">
+        <span>
+          {{ 'auth.username_suggestion' | t }}
+        </span>
+
+        <button
+          type="button"
+          class="btn btn-ghost"
+          (click)="applySuggestedUsername()">
+
+          {{ suggestedUsername() }}
+
+        </button>
+      </div>
+    }
+
+    <form
+      class="stack-md"
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      novalidate>
+
+      <div class="stack-xs">
+        <label>{{ 'auth.fields.name' | t }}</label>
+        <input formControlName="name">
+
+        @if (getNameError()) {
+          <app-field-error [message]="getNameError()"></app-field-error>
+        }
+      </div>
+
+      <div class="stack-xs">
+        <label>{{ 'auth.fields.username' | t }}</label>
+        <input formControlName="username">
+
+        @if (getUsernameError()) {
+          <app-field-error [message]="getUsernameError()"></app-field-error>
+        }
+      </div>
+
+      <div class="stack-xs">
+        <label>{{ 'auth.fields.email' | t }}</label>
+        <input type="email" formControlName="email">
+
+        @if (getEmailError()) {
+          <app-field-error [message]="getEmailError()"></app-field-error>
+        }
+      </div>
+
+      <div class="stack-xs">
+        <label>{{ 'auth.fields.password' | t }}</label>
+
+        <div class="input-with-icon">
+          <input
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="password">
+
+          <button
+            type="button"
+            class="icon-btn"
+            (click)="togglePassword()">
+
+            <i class="fas"
+               [class.fa-eye]="!showPassword()"
+               [class.fa-eye-slash]="showPassword()"></i>
+          </button>
+        </div>
+
+        @if (getPasswordError()) {
+          <app-field-error [message]="getPasswordError()"></app-field-error>
+        }
+      </div>
+
+      <div class="stack-xs">
+        <label>{{ 'auth.fields.confirm_password' | t }}</label>
+
+        <div class="input-with-icon">
+          <input
+            [type]="showConfirmPassword() ? 'text' : 'password'"
+            formControlName="confirmPassword">
+
+          <button
+            type="button"
+            class="icon-btn"
+            (click)="toggleConfirmPassword()">
+
+            <i class="fas"
+               [class.fa-eye]="!showConfirmPassword()"
+               [class.fa-eye-slash]="showConfirmPassword()"></i>
+          </button>
+        </div>
+
+        @if (getConfirmPasswordError()) {
+          <app-field-error
+            [message]="getConfirmPasswordError()">
+          </app-field-error>
+        }
+      </div>
+
+      <div class="stack-xs">
+        <label>{{ 'auth.fields.bio' | t }}</label>
+        <textarea rows="3" formControlName="bio"></textarea>
+
+        @if (getBioError()) {
+          <app-field-error [message]="getBioError()"></app-field-error>
+        }
+      </div>
+
+      <div class="stack-xs">
+        <label>{{ 'auth.fields.skills' | t }}</label>
+        <input
+          formControlName="skills"
+          [placeholder]="'auth.skills_hint' | t">
+
+        @if (getSkillsError()) {
+          <app-field-error [message]="getSkillsError()"></app-field-error>
+        }
+      </div>
+
+      <div class="stack-sm">
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="form.invalid || loading()">
+
+          @if (loading()) {
+            <app-spinner
+              [label]="'auth.actions.registering' | t">
+            </app-spinner>
+          } @else {
+            <span class="inline">
+              <i class="icon fas fa-user-plus"></i>
+              {{ 'auth.actions.register' | t }}
+            </span>
+          }
+
+        </button>
+
+        <p class="text-muted text-center">
+          {{ 'auth.login_prompt' | t }}
+          <a routerLink="/login">
+            {{ 'auth.actions.go_login' | t }}
+          </a>
+        </p>
+
+      </div>
+
+    </form>
+
+  </div>
+</section>

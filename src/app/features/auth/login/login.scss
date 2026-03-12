@@ -1,0 +1,51 @@
+:host {
+  display: block;
+}
+
+.login-page {
+  width: min(100% - 2rem, 34rem);
+  margin-inline: auto;
+  padding: 2rem 0 3rem;
+}
+
+.login-card {
+  width: 100%;
+}
+
+.login-header {
+  gap: .75rem;
+  align-items: center;
+}
+
+.login-header h1 {
+  margin: 0;
+}
+
+.login-subtitle {
+  margin: 0;
+}
+
+.login-actions {
+  padding-top: .25rem;
+}
+
+.login-submit {
+  width: 100%;
+}
+
+.login-register {
+  margin: 0;
+  text-align: center;
+}
+
+.login-register a {
+  margin-left: .35rem;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .login-page {
+    width: min(100% - 1rem, 34rem);
+    padding: 1rem 0 2rem;
+  }
+}

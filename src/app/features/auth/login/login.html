@@ -1,1 +1,98 @@
-<p>login works!</p>
+<section class="login-page">
+  <div class="login-card card stack-lg animate-fade-in-up">
+    <header class="stack-sm">
+      <div class="login-header inline">
+        <i class="icon fas fa-right-to-bracket"></i>
+        <h1>{{ 'auth.login_title' | t }}</h1>
+      </div>
+
+      <p class="text-soft login-subtitle">
+        {{ 'auth.login_subtitle' | t }}
+      </p>
+    </header>
+
+    @if (formErrors.length > 0) {
+      <app-form-error-summary [errors]="formErrors"></app-form-error-summary>
+    }
+
+    @if (apiErrorMessage()) {
+      <app-alert-error [message]="apiErrorMessage()"></app-alert-error>
+    }
+
+    <form
+      class="stack-md"
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      novalidate>
+
+      <div class="stack-xs">
+        <label for="email">
+          {{ 'auth.fields.email' | t }}
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          [placeholder]="'auth.placeholders.email' | t"
+          [attr.aria-invalid]="!!getEmailError()"
+          [attr.aria-describedby]="getEmailError() ? 'email-error' : null" />
+
+        @if (getEmailError()) {
+          <div id="email-error">
+            <app-field-error [message]="getEmailError()"></app-field-error>
+          </div>
+        }
+      </div>
+
+      <div class="stack-xs">
+        <label for="password">
+          {{ 'auth.fields.password' | t }}
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+          [placeholder]="'auth.placeholders.password' | t"
+          [attr.aria-invalid]="!!getPasswordError()"
+          [attr.aria-describedby]="getPasswordError() ? 'password-error' : null" />
+
+        @if (getPasswordError()) {
+          <div id="password-error">
+            <app-field-error [message]="getPasswordError()"></app-field-error>
+          </div>
+        }
+      </div>
+
+      <div class="stack-sm login-actions">
+        <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="form.invalid || loading()">
+
+        @if (loading()) {
+          <app-spinner
+            [label]="'auth.actions.logging_in' | t">
+          </app-spinner>
+        } @else {
+          <span class="inline">
+            <i class="icon fas fa-right-to-bracket"></i>
+            {{ 'auth.actions.login' | t }}
+          </span>
+        }
+
+      </button>
+
+        <p class="login-register text-muted">
+          <span>{{ 'auth.register_prompt' | t }}</span>
+          <a routerLink="/register">
+            {{ 'auth.actions.go_register' | t }}
+          </a>
+        </p>
+      </div>
+    </form>
+  </div>
+</section>
