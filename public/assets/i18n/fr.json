@@ -27,13 +27,15 @@
 
   "nav": {
     "jobs": "Offres",
+    "platform_stats": "Statistiques",
     "my_postings": "Mes offres",
     "my_bids": "Mes propositions",
-    "profile": "Mon profil",
-    "platform_stats": "Statistiques",
+    "post_job": "Publier un job",
     "login": "Connexion",
-    "register": "Inscription",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "profile": "Profil",
+    "welcome": "Bienvenue",
+    "theme": "Thème"
   },
 
   "common": {

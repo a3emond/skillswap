@@ -25,16 +25,20 @@
     "You already have a pending proposal for this job": "You already have a pending proposal for this job"
   },
 
+  
   "nav": {
     "jobs": "Jobs",
+    "platform_stats": "Platform Stats",
     "my_postings": "My Postings",
     "my_bids": "My Bids",
-    "profile": "My Profile",
-    "platform_stats": "Platform Stats",
+    "post_job": "Post Job",
     "login": "Login",
-    "register": "Register",
-    "logout": "Logout"
+    "logout": "Logout",
+    "profile": "Profile",
+    "welcome": "Welcome",
+    "theme": "Theme"
   },
+
 
   "common": {
     "submit": "Submit",

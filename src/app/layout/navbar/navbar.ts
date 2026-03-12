@@ -1,10 +1,12 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, effect } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { CommonModule } from '@angular/common'
 
 import { TranslatePipe } from '../../core/i18n/translate.pipe'
 import { I18nService } from '../../core/i18n/i18n.service'
 import { ThemeService } from '../../core/theme/theme.service'
+import { AuthStore } from '../../core/auth/auth.store'
+import { NavbarStore } from '../../core/navbar/navbar.store'
 
 @Component({
   selector: 'app-navbar',
@@ -21,8 +23,27 @@ export class Navbar {
 
   private i18n = inject(I18nService)
   private theme = inject(ThemeService)
+  private auth = inject(AuthStore)
+  private navbarStore = inject(NavbarStore)
+
+  user = this.auth.user
+  authenticated = this.auth.authenticated
+
+  myJobsCount = this.navbarStore.myJobsCount
+  myBidsCount = this.navbarStore.myBidsCount
 
   menuOpen = false
+
+  constructor() {
+    effect(() => {
+      if (this.authenticated()) {
+        this.navbarStore.refresh()
+      } else {
+        this.navbarStore.reset()
+        this.menuOpen = false
+      }
+    })
+  }
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen
@@ -38,11 +59,16 @@ export class Navbar {
 
   toggleLang() {
     const next = this.i18n.currentLang() === 'en' ? 'fr' : 'en'
-    this.i18n.setLang(next)
+    void this.i18n.setLang(next)
   }
 
   toggleTheme() {
     this.theme.toggle()
+  }
+
+  logout() {
+    this.auth.clearSession()
+    this.closeMenu()
   }
 
 }

@@ -2,43 +2,76 @@
 
   <div class="nav-inner">
 
-    <!-- desktop navigation -->
-
     <div class="nav-links">
 
       <a routerLink="/jobs" class="nav-link">
         {{ 'nav.jobs' | t }}
       </a>
 
-      <a routerLink="/jobs/my-postings" class="nav-link">
-        {{ 'nav.my_postings' | t }}
-      </a>
-
-      <a routerLink="/proposals/my-bids" class="nav-link">
-        {{ 'nav.my_bids' | t }}
-      </a>
-
       <a routerLink="/platform/stats" class="nav-link">
         {{ 'nav.platform_stats' | t }}
       </a>
 
-    </div>
+      @if (authenticated()) {
 
-    <!-- desktop controls -->
+        <a routerLink="/jobs/my-postings" class="nav-link">
+          {{ 'nav.my_postings' | t }}
+
+          @if (myJobsCount() > 0) {
+            <span class="pill">{{ myJobsCount() }}</span>
+          }
+        </a>
+
+        <a routerLink="/proposals/my-bids" class="nav-link">
+          {{ 'nav.my_bids' | t }}
+
+          @if (myBidsCount() > 0) {
+            <span class="pill">{{ myBidsCount() }}</span>
+          }
+        </a>
+
+        <a routerLink="/jobs/create" class="nav-btn nav-primary">
+          {{ 'nav.post_job' | t }}
+        </a>
+
+      }
+
+    </div>
 
     <div class="nav-controls">
 
-      <button class="nav-btn" (click)="toggleLang()">
+      @if (authenticated()) {
+
+        <span class="nav-user">
+          {{ 'nav.welcome' | t }} {{ user()?.name }}
+        </span>
+
+        <a routerLink="/users/me" class="nav-btn">
+          {{ 'nav.profile' | t }}
+        </a>
+
+        <button type="button" class="nav-btn" (click)="logout()">
+          {{ 'nav.logout' | t }}
+        </button>
+
+      } @else {
+
+        <a routerLink="/login" class="nav-btn">
+          {{ 'nav.login' | t }}
+        </a>
+
+      }
+
+      <button type="button" class="nav-btn" (click)="toggleLang()">
         {{ currentLang() === 'en' ? 'FR' : 'EN' }}
       </button>
 
-      <button class="nav-btn" (click)="toggleTheme()">
-        Theme
+      <button type="button" class="nav-btn" (click)="toggleTheme()">
+        {{ 'nav.theme' | t }}
       </button>
 
-      <!-- burger -->
-
       <button
+        type="button"
         class="burger"
         [class.open]="menuOpen"
         (click)="toggleMenu()"
@@ -53,45 +86,82 @@
 
   </div>
 
+  @if (menuOpen) {
+    <div class="mobile-menu">
 
-  <!-- MOBILE MENU -->
+      <div class="menu-section">
 
-  <div class="mobile-menu" *ngIf="menuOpen">
+        <a routerLink="/jobs" (click)="closeMenu()">
+          {{ 'nav.jobs' | t }}
+        </a>
 
-    <div class="menu-section">
+        <a routerLink="/platform/stats" (click)="closeMenu()">
+          {{ 'nav.platform_stats' | t }}
+        </a>
 
-      <a routerLink="/jobs" (click)="closeMenu()">
-        {{ 'nav.jobs' | t }}
-      </a>
+        @if (authenticated()) {
 
-      <a routerLink="/jobs/my-postings" (click)="closeMenu()">
-        {{ 'nav.my_postings' | t }}
-      </a>
+          <a routerLink="/jobs/my-postings" (click)="closeMenu()">
+            {{ 'nav.my_postings' | t }}
 
-      <a routerLink="/proposals/my-bids" (click)="closeMenu()">
-        {{ 'nav.my_bids' | t }}
-      </a>
+            @if (myJobsCount() > 0) {
+              <span class="pill">{{ myJobsCount() }}</span>
+            }
+          </a>
 
-      <a routerLink="/platform/stats" (click)="closeMenu()">
-        {{ 'nav.platform_stats' | t }}
-      </a>
+          <a routerLink="/proposals/my-bids" (click)="closeMenu()">
+            {{ 'nav.my_bids' | t }}
+
+            @if (myBidsCount() > 0) {
+              <span class="pill">{{ myBidsCount() }}</span>
+            }
+          </a>
+
+          <a routerLink="/jobs/create" (click)="closeMenu()">
+            {{ 'nav.post_job' | t }}
+          </a>
+
+          <a routerLink="/users/me" (click)="closeMenu()">
+            {{ 'nav.profile' | t }}
+          </a>
+
+        }
+
+      </div>
+
+      <hr>
+
+      <div class="menu-section">
+
+        @if (authenticated()) {
+
+          <div class="menu-user">
+            {{ 'nav.welcome' | t }} {{ user()?.name }}
+          </div>
+
+          <button type="button" class="menu-btn" (click)="logout()">
+            {{ 'nav.logout' | t }}
+          </button>
+
+        } @else {
+
+          <a routerLink="/login" (click)="closeMenu()">
+            {{ 'nav.login' | t }}
+          </a>
+
+        }
+
+        <button type="button" class="menu-btn" (click)="toggleLang()">
+          {{ currentLang() === 'en' ? 'FR' : 'EN' }}
+        </button>
+
+        <button type="button" class="menu-btn" (click)="toggleTheme()">
+          {{ 'nav.theme' | t }}
+        </button>
+
+      </div>
 
     </div>
-
-    <hr>
-
-    <div class="menu-section">
-
-      <button class="menu-btn" (click)="toggleLang()">
-        {{ currentLang() === 'en' ? 'FR' : 'EN' }}
-      </button>
-
-      <button class="menu-btn" (click)="toggleTheme()">
-        Theme
-      </button>
-
-    </div>
-
-  </div>
+  }
 
 </nav>
