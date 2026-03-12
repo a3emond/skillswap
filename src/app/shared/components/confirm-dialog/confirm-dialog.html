@@ -1,1 +1,37 @@
-<p>confirm-dialog works!</p>
+<div class="modal-backdrop animate-fade-in">
+
+  <div class="modal-panel card stack-md animate-fade-in-up">
+
+    <h3>{{ title }}</h3>
+
+    <p class="text-soft">
+      {{ message }}
+    </p>
+
+    <div class="inline-between">
+
+      <button
+        type="button"
+        class="btn btn-ghost"
+        (click)="cancel.emit()">
+
+        <i class="icon fas fa-xmark"></i>
+        Cancel
+
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="confirm.emit()">
+
+        <i class="icon fas fa-check"></i>
+        Confirm
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

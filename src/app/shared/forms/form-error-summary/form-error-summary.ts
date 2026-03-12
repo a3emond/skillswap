@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-form-error-summary',
-  imports: [],
+  standalone: true,
   templateUrl: './form-error-summary.html',
-  styleUrl: './form-error-summary.scss',
+  styleUrl: './form-error-summary.scss'
 })
 export class FormErrorSummary {
+
+  @Input() errors: string[] = [];
 
 }

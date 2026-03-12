@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-spinner',
-  imports: [],
+  standalone: true,
   templateUrl: './spinner.html',
-  styleUrl: './spinner.scss',
+  styleUrl: './spinner.scss'
 })
 export class Spinner {
-
+  @Input() label?: string;
 }

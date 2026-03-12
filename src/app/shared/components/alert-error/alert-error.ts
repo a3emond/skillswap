@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-alert-error',
-  imports: [],
+  standalone: true,
   templateUrl: './alert-error.html',
-  styleUrl: './alert-error.scss',
+  styleUrl: './alert-error.scss'
 })
 export class AlertError {
-
+  @Input() message!: string;
 }

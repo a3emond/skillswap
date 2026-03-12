@@ -634,3 +634,69 @@ th {
     padding: var(--space-md);
   }
 }
+
+/* =========================================================
+   SPINNER
+   ========================================================= */
+
+.spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  color: var(--color-text-muted);
+}
+
+.spinner i {
+  font-size: 1rem;
+}
+
+/* =========================================================
+   MODAL / OVERLAY
+   ========================================================= */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--space-lg);
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(2px);
+  animation: fade-in var(--transition-base);
+}
+
+.modal-panel {
+  width: min(420px, 100%);
+  animation: fade-in-up var(--transition-base);
+}
+
+/* =========================================================
+   FORM VALIDATION
+   ========================================================= */
+
+.field-error {
+  margin-top: var(--space-2xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-danger);
+}
+
+/* =========================================================
+   RATING STARS
+   ========================================================= */
+
+.rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--color-warning);
+}
+
+/* prevents misalignment across butons, alerts, etc. */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}

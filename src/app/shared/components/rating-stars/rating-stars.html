@@ -1,1 +1,10 @@
-<p>rating-stars works!</p>
+<div class="rating-stars">
+
+  @for (star of stars; track star) {
+    <i
+      class="icon fas fa-star"
+      [class.text-muted]="star > rating">
+    </i>
+  }
+
+</div>

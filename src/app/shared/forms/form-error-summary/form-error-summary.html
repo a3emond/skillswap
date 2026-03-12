@@ -1,1 +1,14 @@
-<p>form-error-summary works!</p>
+<div class="alert-base alert-error stack-xs">
+
+  <div class="inline">
+    <i class="icon fas fa-triangle-exclamation"></i>
+    <strong>Errors</strong>
+  </div>
+
+  <ul>
+    @for (e of errors; track e) {
+      <li>{{ e }}</li>
+    }
+  </ul>
+
+</div>

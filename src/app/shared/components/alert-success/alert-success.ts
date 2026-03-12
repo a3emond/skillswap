@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-alert-success',
-  imports: [],
+  standalone: true,
   templateUrl: './alert-success.html',
-  styleUrl: './alert-success.scss',
+  styleUrl: './alert-success.scss'
 })
 export class AlertSuccess {
-
+  @Input() message!: string;
 }
