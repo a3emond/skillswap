@@ -1,4 +1,4 @@
-import { Component, inject, effect } from '@angular/core'
+import { Component, inject, effect, computed } from '@angular/core'
 import { RouterLink } from '@angular/router'
 import { CommonModule } from '@angular/common'
 
@@ -33,8 +33,14 @@ export class Navbar {
   myBidsCount = this.navbarStore.myBidsCount
 
   menuOpen = false
+  themeIcon = 'fa-moon'
+
+  hasNotifications = computed(() =>
+    this.myJobsCount() > 0 || this.myBidsCount() > 0
+  )
 
   constructor() {
+
     effect(() => {
       if (this.authenticated()) {
         this.navbarStore.refresh()
@@ -43,6 +49,8 @@ export class Navbar {
         this.menuOpen = false
       }
     })
+
+    this.syncThemeIcon()
   }
 
   toggleMenu() {
@@ -64,6 +72,12 @@ export class Navbar {
 
   toggleTheme() {
     this.theme.toggle()
+    this.syncThemeIcon()
+  }
+
+  private syncThemeIcon() {
+    const currentTheme = localStorage.getItem('theme') as 'light' | 'dark' | null
+    this.themeIcon = currentTheme === 'dark' ? 'fa-sun' : 'fa-moon'
   }
 
   logout() {

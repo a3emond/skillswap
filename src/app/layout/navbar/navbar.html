@@ -30,7 +30,7 @@
           }
         </a>
 
-        <a routerLink="/jobs/create" class="nav-btn nav-primary">
+        <a routerLink="/jobs/create" class="nav-link">
           {{ 'nav.post_job' | t }}
         </a>
 
@@ -46,28 +46,35 @@
           {{ 'nav.welcome' | t }} {{ user()?.name }}
         </span>
 
-        <a routerLink="/users/me" class="nav-btn">
+        <a routerLink="/users/me" class="nav-link desktop-only">
           {{ 'nav.profile' | t }}
         </a>
 
-        <button type="button" class="nav-btn" (click)="logout()">
+        <button
+          type="button"
+          class="nav-btn desktop-only"
+          (click)="logout()">
           {{ 'nav.logout' | t }}
         </button>
 
       } @else {
 
-        <a routerLink="/login" class="nav-btn">
+        <a routerLink="/login" class="nav-action nav-primary">
           {{ 'nav.login' | t }}
         </a>
 
       }
 
-      <button type="button" class="nav-btn" (click)="toggleLang()">
-        {{ currentLang() === 'en' ? 'FR' : 'EN' }}
+      <button
+        type="button"
+        class="nav-btn theme-toggle"
+        (click)="toggleTheme()"
+        aria-label="Theme">
+        <i class="icon fas" [class]="themeIcon"></i>
       </button>
 
-      <button type="button" class="nav-btn" (click)="toggleTheme()">
-        {{ 'nav.theme' | t }}
+      <button type="button" class="nav-btn" (click)="toggleLang()">
+        {{ currentLang() === 'en' ? 'FR' : 'EN' }}
       </button>
 
       <button
@@ -80,6 +87,10 @@
         <span></span>
         <span></span>
         <span></span>
+
+        @if (hasNotifications()) {
+          <span class="burger-pill"></span>
+        }
       </button>
 
     </div>
@@ -87,6 +98,7 @@
   </div>
 
   @if (menuOpen) {
+
     <div class="mobile-menu">
 
       <div class="menu-section">
@@ -102,7 +114,7 @@
         @if (authenticated()) {
 
           <a routerLink="/jobs/my-postings" (click)="closeMenu()">
-            {{ 'nav.my_postings' | t }}
+            <span>{{ 'nav.my_postings' | t }}</span>
 
             @if (myJobsCount() > 0) {
               <span class="pill">{{ myJobsCount() }}</span>
@@ -110,7 +122,7 @@
           </a>
 
           <a routerLink="/proposals/my-bids" (click)="closeMenu()">
-            {{ 'nav.my_bids' | t }}
+            <span>{{ 'nav.my_bids' | t }}</span>
 
             @if (myBidsCount() > 0) {
               <span class="pill">{{ myBidsCount() }}</span>
@@ -162,6 +174,7 @@
       </div>
 
     </div>
+
   }
 
 </nav>

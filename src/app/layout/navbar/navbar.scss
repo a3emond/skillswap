@@ -44,6 +44,16 @@
   align-items: center;
 }
 
+.nav-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 .75rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+}
+
 .nav-btn {
   display: inline-flex;
   align-items: center;
@@ -67,8 +77,8 @@
   color: #fff;
 }
 
-.nav-primary:hover {
-  opacity: .94;
+.theme-toggle .icon {
+  font-size: 1rem;
 }
 
 .pill {
@@ -83,10 +93,10 @@
   color: #fff;
   font-size: .72rem;
   font-weight: 700;
-  line-height: 1;
 }
 
 .burger {
+  position: relative;
   display: none;
   flex-direction: column;
   justify-content: center;
@@ -95,26 +105,22 @@
   height: 36px;
   border: none;
   background: transparent;
-  cursor: pointer;
 }
 
 .burger span {
   height: 2px;
   width: 22px;
   background: var(--color-text);
-  transition: .25s;
 }
 
-.burger.open span:nth-child(1) {
-  transform: rotate(45deg) translateY(6px);
-}
-
-.burger.open span:nth-child(2) {
-  opacity: 0;
-}
-
-.burger.open span:nth-child(3) {
-  transform: rotate(-45deg) translateY(-6px);
+.burger-pill {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-primary);
 }
 
 .mobile-menu {
@@ -123,7 +129,6 @@
   gap: .75rem;
   padding: 1rem;
   border-top: 1px solid var(--color-border);
-  background: var(--color-bg-elevated);
 }
 
 .menu-section {
@@ -132,27 +137,18 @@
   gap: .5rem;
 }
 
-.menu-section a {
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  padding: .6rem 0;
-}
-
 .menu-btn {
   padding: .6rem 0;
   text-align: left;
 }
 
-.menu-user {
-  color: var(--color-text-soft);
-  font-weight: 500;
-  padding: .2rem 0 .4rem;
-}
-
 .mobile-menu hr {
   border: none;
   border-top: 1px solid var(--color-border);
+}
+
+.desktop-only {
+  display: inline-flex;
 }
 
 @media (max-width: 768px) {
@@ -161,17 +157,24 @@
     display: none;
   }
 
-  .nav-controls {
-    margin-left: auto;
-  }
-
-  .nav-controls .nav-btn,
-  .nav-controls .nav-user {
+  .desktop-only {
     display: none;
   }
 
+  /* hide theme + lang */
+  .nav-controls .nav-btn {
+    display: none;
+  }
+
+  /* controls take full width so we can push burger right */
+  .nav-controls {
+    width: 100%;
+  }
+
+  /* burger goes to the far right */
   .burger {
     display: flex;
+    margin-left: auto;
   }
 
 }
