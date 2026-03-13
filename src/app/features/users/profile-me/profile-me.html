@@ -1,1 +1,63 @@
-<p>profile-me works!</p>
+<section class="profile-page">
+
+  @let u = user();
+
+  @if (loading()) {
+    <app-spinner label="Loading profile..."></app-spinner>
+  }
+
+  @if (apiErrorMessage()) {
+    <app-alert-error [message]="apiErrorMessage()"></app-alert-error>
+  }
+
+  @if (!loading() && !u && !apiErrorMessage()) {
+    <app-empty-state
+      title="Profile unavailable"
+      message="Your profile could not be loaded.">
+    </app-empty-state>
+  }
+
+  @if (u) {
+
+    <div class="card stack-md profile-card">
+
+      <header class="stack-xs profile-header">
+        <h2>{{ u.name }}</h2>
+        <span class="text-soft">@{{ u.username }}</span>
+      </header>
+
+      <p class="text-soft profile-bio">
+        {{ u.bio }}
+      </p>
+
+      <div class="inline profile-stats">
+
+        <app-rating-stars
+          [rating]="u.rating_avg ?? 0">
+        </app-rating-stars>
+
+        <span class="text-soft">
+          {{ u.completed_jobs ?? 0 }} completed jobs
+        </span>
+
+      </div>
+
+      @if (u.skills.length > 0) {
+
+        <div class="skills-container">
+
+          @for (skill of u.skills; track skill) {
+            <span class="skill-chip">
+              {{ skill }}
+            </span>
+          }
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</section>

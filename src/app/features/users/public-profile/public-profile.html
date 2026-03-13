@@ -1,1 +1,54 @@
-<p>public-profile works!</p>
+<app-modal (close)="user.set(null)">
+
+  @let u = user();
+
+  @if (loading()) {
+    <app-spinner label="Loading profile..."></app-spinner>
+  }
+
+  @if (apiErrorMessage()) {
+    <app-alert-error [message]="apiErrorMessage()"></app-alert-error>
+  }
+
+  @if (u) {
+
+    <div class="stack-md">
+
+      <header class="stack-xs">
+        <h2>{{ u.name }}</h2>
+        <span class="text-soft">@{{ u.username }}</span>
+      </header>
+
+      <p class="text-soft">
+        {{ u.bio }}
+      </p>
+
+      <div class="inline">
+
+        <app-rating-stars
+          [rating]="u.rating_avg ?? 0">
+        </app-rating-stars>
+
+        <span class="text-soft">
+          {{ u.completed_jobs ?? 0 }} completed jobs
+        </span>
+
+      </div>
+
+      @if (u.skills.length > 0) {
+
+        <div class="inline-wrap">
+
+          @for (skill of u.skills; track skill) {
+            <span class="skill-chip">{{ skill }}</span>
+          }
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</app-modal>
