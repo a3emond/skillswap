@@ -9,6 +9,7 @@ import { I18nService } from '../../../core/i18n/i18n.service'
 import { TranslatePipe } from '../../../core/i18n/translate.pipe'
 
 import { ApiError } from '../../../core/http/api-error.model'
+import { DevLogger } from '../../../core/utils/dev-logger'
 
 import { passwordMatchValidator } from '../../../shared/forms/validators/password-match.validator'
 
@@ -62,14 +63,24 @@ export class Register {
     validators: passwordMatchValidator
   })
 
+  constructor() {
+    DevLogger.log('[Register] component initialized')
+  }
+
   submit(): void {
+
+    DevLogger.group('[Register] submit')
 
     this.apiErrorMessage.set('')
     this.successMessage.set('')
     this.suggestedUsername.set(null)
 
     if (this.form.invalid) {
+
+      DevLogger.warn('[Register] form invalid', this.form.getRawValue())
+
       this.form.markAllAsTouched()
+      DevLogger.groupEnd()
       return
     }
 
@@ -89,44 +100,72 @@ export class Register {
         .filter(Boolean)
     }
 
+    DevLogger.log('[Register] DTO', dto)
+
     this.authService.register(dto)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.loading.set(false))
+        finalize(() => {
+          DevLogger.log('[Register] request finalized')
+          this.loading.set(false)
+        })
       )
       .subscribe({
 
         next: res => {
 
+          DevLogger.group('[Register] success')
+
+          DevLogger.log('[Register] response', res)
+
           this.successMessage.set(res.message)
 
+          DevLogger.log('[Register] success message set', res.message)
+
           setTimeout(() => {
+
+            DevLogger.log('[Register] navigation → /login')
+
             void this.router.navigate(['/login'])
+
           }, 1200)
 
+          DevLogger.groupEnd()
         },
 
         error: (error: ApiError) => {
 
-          console.log(error)
+          DevLogger.group('[Register] error')
+
+          DevLogger.error('[Register] normalized ApiError', error)
+
+          DevLogger.log('[Register] status', error.status)
+          DevLogger.log('[Register] message', error.message)
+          DevLogger.log('[Register] raw payload', error.raw)
 
           if (
             error.raw &&
             typeof error.raw === 'object' &&
             'suggested_username' in error.raw
           ) {
-            this.suggestedUsername.set(
-              (error.raw as any).suggested_username
-            )
+
+            const suggestion = (error.raw as any).suggested_username
+
+            DevLogger.warn('[Register] suggested username detected', suggestion)
+
+            this.suggestedUsername.set(suggestion)
           }
 
           this.apiErrorMessage.set(
             this.i18n.error(error.message)
           )
 
+          DevLogger.groupEnd()
         }
 
       })
+
+    DevLogger.groupEnd()
   }
 
   applySuggestedUsername(): void {
@@ -135,16 +174,24 @@ export class Register {
 
     if (!suggestion) return
 
+    DevLogger.log('[Register] applying suggested username', suggestion)
+
     this.form.controls.username.setValue(suggestion)
     this.suggestedUsername.set(null)
   }
 
   togglePassword(): void {
+
     this.showPassword.update(v => !v)
+
+    DevLogger.log('[Register] toggle password visibility', this.showPassword())
   }
 
   toggleConfirmPassword(): void {
+
     this.showConfirmPassword.update(v => !v)
+
+    DevLogger.log('[Register] toggle confirm password visibility', this.showConfirmPassword())
   }
 
   get formErrors(): string[] {
@@ -167,6 +214,8 @@ export class Register {
 
     return errors
   }
+
+  /* validation helpers unchanged */
 
   getNameError(): string {
 

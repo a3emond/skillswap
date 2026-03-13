@@ -12,6 +12,7 @@ import { I18nService } from '../../../core/i18n/i18n.service'
 import { TranslatePipe } from '../../../core/i18n/translate.pipe'
 
 import { ApiError } from '../../../core/http/api-error.model'
+import { DevLogger } from '../../../core/utils/dev-logger'
 
 import { AlertError } from '../../../shared/components/alert-error/alert-error'
 import { Spinner } from '../../../shared/components/spinner/spinner'
@@ -34,6 +35,7 @@ import { FormErrorSummary } from '../../../shared/forms/form-error-summary/form-
   styleUrl: './login.scss',
 })
 export class Login {
+
   private readonly fb = inject(NonNullableFormBuilder)
   private readonly authService = inject(AuthService)
   private readonly authStore = inject(AuthStore)
@@ -55,37 +57,88 @@ export class Login {
   )
 
   constructor() {
+
+    DevLogger.log('[Login] component initialized')
+
     if (this.authStore.isAuthenticated()) {
+
+      DevLogger.warn('[Login] already authenticated, redirecting')
+
       void this.router.navigate(['/jobs'])
     }
   }
 
   submit(): void {
+
+    DevLogger.group('[Login] submit')
+
     this.apiErrorMessage.set('')
 
     if (this.form.invalid) {
+
+      DevLogger.warn('[Login] form invalid', this.form.getRawValue())
+
       this.form.markAllAsTouched()
+      DevLogger.groupEnd()
       return
     }
 
+    const dto = this.form.getRawValue()
+
+    DevLogger.log('[Login] DTO', dto)
+
     this.loading.set(true)
 
-    this.authService.login(this.form.getRawValue())
+    this.authService.login(dto)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.loading.set(false))
+        finalize(() => {
+
+          DevLogger.log('[Login] request finalized')
+          this.loading.set(false)
+
+        })
       )
       .subscribe({
+
         next: response => {
+
+          DevLogger.group('[Login] success')
+
+          DevLogger.log('[Login] response DTO', response)
+
           this.authStore.setSession(response.token, response.user)
+
+          DevLogger.log('[Login] session stored')
+
           this.navbarStore.refresh()
+
+          DevLogger.log('[Login] navbar refreshed')
+
           void this.router.navigate(['/jobs'])
+
+          DevLogger.log('[Login] navigation → /jobs')
+
+          DevLogger.groupEnd()
         },
+
         error: (error: ApiError) => {
-          console.log(error)
+
+          DevLogger.group('[Login] error')
+
+          DevLogger.error('[Login] normalized ApiError', error)
+
+          DevLogger.log('[Login] status', error.status)
+          DevLogger.log('[Login] message', error.message)
+          DevLogger.log('[Login] raw payload', error.raw)
+
           this.apiErrorMessage.set(this.i18n.error(error.message))
+
+          DevLogger.groupEnd()
         }
       })
+
+    DevLogger.groupEnd()
   }
 
   get emailCtrl() {
@@ -97,6 +150,7 @@ export class Login {
   }
 
   getEmailError(): string {
+
     if (!this.emailCtrl.touched) {
       return ''
     }
@@ -113,6 +167,7 @@ export class Login {
   }
 
   getPasswordError(): string {
+
     if (!this.passwordCtrl.touched) {
       return ''
     }
@@ -129,6 +184,7 @@ export class Login {
   }
 
   get formErrors(): string[] {
+
     const errors: string[] = []
 
     const emailError = this.getEmailError()
@@ -144,4 +200,5 @@ export class Login {
 
     return errors
   }
+
 }
