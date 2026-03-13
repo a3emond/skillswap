@@ -1,1 +1,37 @@
-<p>stats works!</p>
+<section class="stats-page">
+
+  @let s = stats();
+
+  @if (loading()) {
+    <app-spinner [label]="'platform.stats.loading' | t"></app-spinner>
+  }
+
+  @if (apiErrorMessage()) {
+    <app-alert-error [message]="apiErrorMessage()"></app-alert-error>
+  }
+
+  @if (!loading() && s) {
+
+    <div class="stats-grid">
+
+      <div class="card stat-card stack-xs">
+        <span class="stat-label">{{ 'platform.stats.total_users' | t }}</span>
+        <span class="stat-value">{{ s.total_users }}</span>
+      </div>
+
+      <div class="card stat-card stack-xs">
+        <span class="stat-label">{{ 'platform.stats.active_jobs' | t }}</span>
+        <span class="stat-value">{{ s.active_jobs }}</span>
+      </div>
+
+      <div class="card stat-card stack-xs">
+        <span class="stat-label">{{ 'platform.stats.total_value_moved' | t }}</span>
+        <span class="stat-value">
+          {{ s.total_value_moved | scientific }}
+        </span>
+      </div>
+
+    </div>
+  }
+
+</section>

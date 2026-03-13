@@ -100,5 +100,14 @@
 
       "skills_required": "At least one skill is required"
     }
+  },
+
+  "platform": {
+    "stats": {
+      "loading": "Chargement des statistiques de la plateforme...",
+      "total_users": "Utilisateurs totaux",
+      "active_jobs": "Jobs actifs",
+      "total_value_moved": "Valeur totale déplacée"
+    }
   }
 }

@@ -25,7 +25,6 @@
     "You already have a pending proposal for this job": "You already have a pending proposal for this job"
   },
 
-  
   "nav": {
     "jobs": "Jobs",
     "platform_stats": "Platform Stats",
@@ -38,7 +37,6 @@
     "welcome": "Welcome",
     "theme": "Theme"
   },
-
 
   "common": {
     "submit": "Submit",
@@ -102,7 +100,14 @@
 
       "skills_required": "At least one skill is required"
     }
+  },
+
+  "platform": {
+    "stats": {
+      "loading": "Loading platform stats...",
+      "total_users": "Total Users",
+      "active_jobs": "Active Jobs",
+      "total_value_moved": "Total Value Moved"
+    }
   }
-
-
 }
