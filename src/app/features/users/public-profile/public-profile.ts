@@ -1,80 +1,69 @@
-import { Component, DestroyRef, inject, signal, Input } from '@angular/core'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
-import { finalize } from 'rxjs'
+import { Component, DestroyRef, inject, signal, Input } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { finalize } from 'rxjs';
 
-import { UsersService } from '../../../core/services/users.service'
-import { ApiError } from '../../../core/http/api-error.model'
-import { User } from '../../../core/models/user.model'
+import { UsersService } from '../../../core/services/users.service';
+import { ApiError } from '../../../core/http/api-error.model';
+import { User } from '../../../core/models/user.model';
 
-import { DevLogger } from '../../../core/utils/dev-logger'
+import { DevLogger } from '../../../core/utils/dev-logger';
 
-import { Modal } from '../../../shared/components/modal/modal'
-import { Spinner } from '../../../shared/components/spinner/spinner'
-import { AlertError } from '../../../shared/components/alert-error/alert-error'
-import { RatingStars } from '../../../shared/components/rating-stars/rating-stars'
+import { Modal } from '../../../shared/components/modal/modal';
+import { Spinner } from '../../../shared/components/spinner/spinner';
+import { AlertError } from '../../../shared/components/alert-error/alert-error';
+import { RatingStars } from '../../../shared/components/rating-stars/rating-stars';
 
 @Component({
   selector: 'app-public-profile',
   standalone: true,
-  imports: [
-    Modal,
-    Spinner,
-    AlertError,
-    RatingStars
-  ],
+  imports: [Modal, Spinner, AlertError, RatingStars, NgTemplateOutlet],
   templateUrl: './public-profile.html',
-  styleUrl: './public-profile.scss'
+  styleUrl: './public-profile.scss',
 })
 export class PublicProfile {
+  @Input({ required: true }) username!: string;
+  @Input() isModal = true;
 
-  @Input({ required: true }) username!: string
+  private usersService = inject(UsersService);
+  private destroyRef = inject(DestroyRef);
 
-  private usersService = inject(UsersService)
-  private destroyRef = inject(DestroyRef)
-
-  readonly loading = signal(true)
-  readonly apiErrorMessage = signal('')
-  readonly user = signal<User | null>(null)
+  readonly loading = signal(true);
+  readonly apiErrorMessage = signal('');
+  readonly user = signal<User | null>(null);
 
   constructor() {
-
-    DevLogger.log('[PublicProfile] component initialized')
-
+    DevLogger.log('[PublicProfile] component initialized');
   }
 
   ngOnInit() {
+    DevLogger.group('[PublicProfile] load user');
 
-    DevLogger.group('[PublicProfile] load user')
-
-    this.usersService.getByUsername(this.username)
+    this.usersService
+      .getByUsername(this.username)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
-          this.loading.set(false)
-          DevLogger.log('[PublicProfile] request finalized')
-        })
+          this.loading.set(false);
+          DevLogger.log('[PublicProfile] request finalized');
+        }),
       )
       .subscribe({
+        next: (user) => {
+          DevLogger.log('[PublicProfile] user received', user);
 
-        next: user => {
+          this.user.set(user);
 
-          DevLogger.log('[PublicProfile] user received', user)
-
-          this.user.set(user)
-
-          DevLogger.groupEnd()
+          DevLogger.groupEnd();
         },
 
         error: (error: ApiError) => {
+          DevLogger.error('[PublicProfile] ApiError', error);
 
-          DevLogger.error('[PublicProfile] ApiError', error)
+          this.apiErrorMessage.set(error.message);
 
-          this.apiErrorMessage.set(error.message)
-
-          DevLogger.groupEnd()
-        }
-
-      })
+          DevLogger.groupEnd();
+        },
+      });
   }
-
 }

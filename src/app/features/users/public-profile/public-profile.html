@@ -1,4 +1,18 @@
-<app-modal (close)="user.set(null)">
+@if (isModal) {
+
+  <app-modal (close)="user.set(null)">
+
+    <ng-container *ngTemplateOutlet="profileContent"></ng-container>
+
+  </app-modal>
+
+} @else {
+
+  <ng-container *ngTemplateOutlet="profileContent"></ng-container>
+
+}
+
+<ng-template #profileContent>
 
   @let u = user();
 
@@ -51,4 +65,4 @@
 
   }
 
-</app-modal>
+</ng-template>
