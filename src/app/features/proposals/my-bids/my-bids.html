@@ -1,15 +1,15 @@
 <section class="stack-lg">
 
   <header class="stack-xs">
-    <h1>{{ 'bids.title' | t }}</h1>
+    <h1>{{ 'proposals.title' | t }}</h1>
     <p class="text-soft">
-      {{ 'bids.subtitle' | t }}
+      {{ 'proposals.subtitle' | t }}
     </p>
   </header>
 
   @if (loading()) {
     <app-spinner
-      [label]="'bids.loading' | t">
+      [label]="'proposals.loading' | t">
     </app-spinner>
   }
 
@@ -35,8 +35,8 @@
     } @else {
 
       <app-empty-state
-        [title]="'bids.empty_title' | t"
-        [message]="'bids.empty_message' | t">
+        [title]="'proposals.empty_title' | t"
+        [message]="'proposals.empty_message' | t">
       </app-empty-state>
 
     }

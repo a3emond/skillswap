@@ -170,7 +170,8 @@
       "delete_success": "Job supprimé avec succès",
       "loading_details": "Chargement des détails du job...",
       "owner_unavailable": "Informations du propriétaire indisponibles.",
-      "freelancer_unavailable": "Informations du freelance indisponibles."
+      "freelancer_unavailable": "Informations du freelance indisponibles.",
+      "no_freelancer_yet": "Il n'y a pas encore d'offre acceptée!"
     },
 
     "complete": {
@@ -190,14 +191,19 @@
 
   "proposals": {
     "title": "Propositions",
-    "subtitle": "Consultez les propositions soumises pour ce job.",
+    "subtitle": "Consultez les propositions soumises.",
     "loading": "Chargement des propositions...",
 
     "empty_title": "Aucune proposition",
-    "empty_message": "Aucune proposition pour ce job pour le moment.",
+    "empty_message": "Aucune proposition pour le moment.",
 
     "fields": {
-      "price": "Prix"
+      "price": "Prix",
+      "message": "Message"
+    },
+
+    "messages": {
+      "closed_for_bids": "Les propositions ne sont plus disponibles"
     },
 
     "labels": {
@@ -217,6 +223,11 @@
       "pending": "En attente",
       "accepted": "Acceptée",
       "rejected": "Refusée"
+    },
+
+    "create": {
+      "title" : "Faites votre proposition.",
+      "subtitle" : "Offrez vos services."
     }
   },
 

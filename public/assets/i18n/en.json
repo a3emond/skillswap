@@ -170,7 +170,8 @@
       "delete_success": "Job deleted successfully",
       "loading_details": "Loading job details...",
       "owner_unavailable": "Owner information unavailable.",
-      "freelancer_unavailable": "Freelancer information unavailable."
+      "freelancer_unavailable": "Freelancer information unavailable.",
+      "no_freelancer_yet" : "There is no accepted proposal yet!"
     },
 
     "complete": {
@@ -190,14 +191,19 @@
 
   "proposals": {
     "title": "Proposals",
-    "subtitle": "Review submitted proposals for this job.",
+    "subtitle": "Review submitted proposals.",
     "loading": "Loading proposals...",
 
     "empty_title": "No proposals",
-    "empty_message": "There are currently no proposals for this job.",
+    "empty_message": "There are currently no proposals.",
 
     "fields": {
-      "price": "Price"
+      "price": "Price",
+      "message": "Message"
+    },
+
+    "messages": {
+      "closed_for_bids": "closed for bids"
     },
 
     "labels": {
@@ -217,6 +223,11 @@
       "pending": "Pending",
       "accepted": "Accepted",
       "rejected": "Rejected"
+    },
+
+    "create": {
+      "title": "Send a proposal",
+      "subtitle": "Offer your services"
     }
   },
 

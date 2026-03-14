@@ -1,5 +1,5 @@
 import { Component, inject, effect, computed } from '@angular/core'
-import { RouterLink } from '@angular/router'
+import { RouterLink, Router } from '@angular/router'
 import { CommonModule } from '@angular/common'
 
 import { TranslatePipe } from '../../core/i18n/translate.pipe'
@@ -26,6 +26,7 @@ export class Navbar {
   private theme = inject(ThemeService)
   private auth = inject(AuthStore)
   private navbarStore = inject(NavbarStore)
+  private router = inject(Router)
 
   user = this.auth.user
   authenticated = this.auth.authenticated
@@ -52,30 +53,41 @@ export class Navbar {
       DevLogger.log('[Navbar] auth state changed', authState)
 
       if (authState) {
+
         DevLogger.log('[Navbar] refreshing navbar counters')
         this.navbarStore.refresh()
+
       } else {
+
         DevLogger.log('[Navbar] resetting navbar counters')
         this.navbarStore.reset()
         this.menuOpen = false
+
       }
 
     })
 
     this.syncThemeIcon()
+
   }
 
   toggleMenu() {
+
     this.menuOpen = !this.menuOpen
     DevLogger.log('[Navbar] menu toggled', this.menuOpen)
+
   }
 
   closeMenu() {
+
     this.menuOpen = false
+
   }
 
   currentLang() {
+
     return this.i18n.currentLang()
+
   }
 
   toggleLang() {
@@ -89,6 +101,7 @@ export class Navbar {
     })
 
     void this.i18n.setLang(next)
+
   }
 
   toggleTheme() {
@@ -99,6 +112,7 @@ export class Navbar {
     this.syncThemeIcon()
 
     DevLogger.log('[Navbar] theme icon synced', this.themeIcon)
+
   }
 
   private syncThemeIcon() {
@@ -107,6 +121,7 @@ export class Navbar {
     this.themeIcon = currentTheme === 'dark' ? 'fa-sun' : 'fa-moon'
 
     DevLogger.log('[Navbar] theme detected', currentTheme)
+
   }
 
   logout() {
@@ -115,6 +130,9 @@ export class Navbar {
 
     this.auth.clearSession()
     this.closeMenu()
+
+    this.router.navigate(['/login'])
+
   }
 
 }

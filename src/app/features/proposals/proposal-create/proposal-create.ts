@@ -13,14 +13,13 @@ import { Proposal } from '../../../core/models/proposal.model';
 import { ApiError } from '../../../core/http/api-error.model';
 import { DevLogger } from '../../../core/utils/dev-logger';
 
-import { Modal } from '../../../shared/components/modal/modal';
 import { Spinner } from '../../../shared/components/spinner/spinner';
 import { AlertError } from '../../../shared/components/alert-error/alert-error';
 
 @Component({
   selector: 'app-proposal-create',
   standalone: true,
-  imports: [ReactiveFormsModule, TranslatePipe, Modal, Spinner, AlertError],
+  imports: [ReactiveFormsModule, TranslatePipe, Spinner, AlertError],
   templateUrl: './proposal-create.html',
   styleUrl: './proposal-create.scss',
 })

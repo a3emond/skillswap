@@ -8,10 +8,12 @@ import {
   signal,
   effect,
 } from '@angular/core';
+
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { Job, JobStatus } from '../../../core/models/job.model';
+import { toSignal } from '@angular/core/rxjs-interop';
 
+import { Job, JobStatus } from '../../../core/models/job.model';
 import { JobsService } from '../../../core/services/jobs.service';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
@@ -58,16 +60,28 @@ export class JobForm {
     status: ['open' as JobStatus],
   });
 
-  readonly submitDisabled = computed(() => this.loading || this.form.invalid);
+  private readonly formStatus = toSignal(this.form.statusChanges, {
+    initialValue: this.form.status,
+  });
+
+  readonly submitDisabled = computed(() => {
+    this.formStatus();
+    return this.loading || this.form.invalid;
+  });
 
   constructor() {
     effect(() => {
-      const locked = this.newCategory().trim().length > 0;
+      const value = this.newCategory().trim();
+      const ctrl = this.form.controls.category;
 
-      if (locked) {
-        this.form.controls.category.disable({ emitEvent: false });
+      if (value.length > 0) {
+        if (ctrl.value !== '') {
+          ctrl.setValue('', { emitEvent: false });
+        }
+
+        ctrl.disable({ emitEvent: false });
       } else {
-        this.form.controls.category.enable({ emitEvent: false });
+        ctrl.enable({ emitEvent: false });
       }
     });
   }
@@ -110,9 +124,11 @@ export class JobForm {
   get titleCtrl() {
     return this.form.controls.title;
   }
+
   get descriptionCtrl() {
     return this.form.controls.description;
   }
+
   get budgetCtrl() {
     return this.form.controls.budget;
   }
