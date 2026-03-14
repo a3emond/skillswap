@@ -1,1 +1,45 @@
-<p>user-reviews works!</p>
+<section class="user-reviews stack-lg">
+
+  <header class="stack-sm">
+    <h3>{{ 'reviews.user.title' | t }}</h3>
+    <p class="text-soft">{{ 'reviews.user.subtitle' | t }}</p>
+  </header>
+
+  @if (loading()) {
+    <app-spinner [label]="'reviews.user.loading' | t"></app-spinner>
+  }
+
+  @if (apiErrorMessage()) {
+    <app-alert-error [message]="apiErrorMessage()"></app-alert-error>
+  }
+
+  @if (!loading() && reviews().length === 0) {
+    <app-empty-state
+      [title]="'reviews.user.empty_title' | t"
+      [message]="'reviews.user.empty_message' | t">
+    </app-empty-state>
+  }
+
+  @if (!loading() && reviews().length > 0) {
+    <div class="stack-md">
+      @for (review of reviews(); track review.id) {
+        <article class="card stack-sm review-card">
+
+          <div class="inline-between">
+            <strong>
+              {{ review.reviewer?.username ?? review.reviewer?.name ?? ('reviews.labels.unknown_reviewer' | t) }}
+            </strong>
+
+            <app-rating-stars [rating]="review.rating"></app-rating-stars>
+          </div>
+
+          @if (review.message) {
+            <p class="text-soft">{{ review.message }}</p>
+          }
+
+        </article>
+      }
+    </div>
+  }
+
+</section>

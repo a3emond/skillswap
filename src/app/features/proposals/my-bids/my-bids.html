@@ -1,1 +1,66 @@
-<p>my-bids works!</p>
+<section class="stack-lg">
+
+  <header class="stack-xs">
+    <h1>{{ 'bids.title' | t }}</h1>
+    <p class="text-soft">
+      {{ 'bids.subtitle' | t }}
+    </p>
+  </header>
+
+  @if (loading()) {
+    <app-spinner
+      [label]="'bids.loading' | t">
+    </app-spinner>
+  }
+
+  @if (apiErrorMessage()) {
+    <app-alert-error
+      [message]="apiErrorMessage()">
+    </app-alert-error>
+  }
+
+  @if (!loading()) {
+
+    @if (bids().length > 0) {
+
+      <app-job-proposals
+        [proposals]="bids()"
+        [actionLabel]="'proposals.actions.delete'"
+        [actionClass]="'btn btn-danger'"
+        [actionLoading]="actionLoading()"
+        (action)="askDelete($event)"
+        (jobClick)="openJob($event)">
+      </app-job-proposals>
+
+    } @else {
+
+      <app-empty-state
+        [title]="'bids.empty_title' | t"
+        [message]="'bids.empty_message' | t">
+      </app-empty-state>
+
+    }
+
+  }
+
+</section>
+
+@if (selectedJobId()) {
+
+  <app-job-details
+    [jobId]="selectedJobId()!"
+    (close)="selectedJobId.set(null)">
+  </app-job-details>
+
+}
+
+@if (pendingAction()) {
+
+  <app-confirm-dialog
+    [title]="confirmTitle()"
+    [message]="confirmMessage()"
+    (confirm)="confirmAction()"
+    (cancel)="clearPendingAction()">
+  </app-confirm-dialog>
+
+}

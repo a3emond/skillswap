@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+.job-form {
+  width: min(100%, 640px);
+  margin-inline: auto;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+select,
+input,
+textarea {
+  width: 100%;
+}
+
+button {
+  margin-top: .5rem;
+}

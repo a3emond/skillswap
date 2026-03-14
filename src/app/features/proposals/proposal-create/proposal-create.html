@@ -1,0 +1,62 @@
+
+
+<div class="stack-lg proposal-create">
+
+    <header class="stack-sm">
+        <h2>{{ 'proposals.create.title' | t }}</h2>
+        <p class="text-soft">{{ 'proposals.create.subtitle' | t }}</p>
+    </header>
+
+    @if (apiErrorMessage()) {
+        <app-alert-error [message]="apiErrorMessage()"></app-alert-error>
+    }
+
+    <form
+        class="stack-md"
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+        novalidate>
+
+        <div class="stack-xs">
+
+        <label>
+            {{ 'proposals.fields.price' | t }}
+        </label>
+
+        <input
+            type="number"
+            formControlName="price"
+            min="1" />
+
+        </div>
+
+        <div class="stack-xs">
+
+        <label>
+            {{ 'proposals.fields.message' | t }}
+        </label>
+
+        <textarea
+            rows="5"
+            formControlName="message">
+        </textarea>
+
+        </div>
+
+        <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="loading()">
+
+        @if (loading()) {
+            <app-spinner [label]="'common.loading' | t"></app-spinner>
+        } @else {
+            {{ 'common.submit' | t }}
+        }
+
+        </button>
+
+    </form>
+
+</div>
+

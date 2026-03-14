@@ -2,33 +2,33 @@
   "errors": {
     "Email and password are required": "Email et mot de passe requis",
     "Invalid credentials": "Identifiants invalides",
-    "Missing required fields": "Champs obligatoires manquants",
+    "Missing required fields": "Champs requis manquants",
     "Invalid username": "Nom d'utilisateur invalide",
     "Email already in use": "Email déjà utilisé",
     "Username already in use": "Nom d'utilisateur déjà utilisé",
     "Invalid token": "Jeton invalide",
     "Missing or invalid Authorization header": "En-tête Authorization manquant ou invalide",
     "Forbidden": "Accès interdit",
-    "Job not found": "Offre introuvable",
+    "Job not found": "Job introuvable",
     "Proposal not found": "Proposition introuvable",
     "User not found": "Utilisateur introuvable",
     "min_budget must be numeric": "Le budget minimum doit être numérique",
-    "Invalid status": "Statut invalide",
-    "No valid fields to update": "Aucun champ valide à modifier",
-    "Only in-progress jobs can be completed": "Seuls les projets en cours peuvent être complétés",
+    "Invalid status": "Statut de job invalide",
+    "No valid fields to update": "Aucun champ valide à mettre à jour",
+    "Only in-progress jobs can be completed": "Seuls les jobs en cours peuvent être complétés",
     "price and cover_letter/message are required": "Le prix et le message sont requis",
-    "You cannot submit a proposal to your own job": "Vous ne pouvez pas proposer pour votre propre offre",
+    "You cannot submit a proposal to your own job": "Vous ne pouvez pas soumettre une proposition à votre propre job",
     "Only pending proposals can be deleted": "Seules les propositions en attente peuvent être supprimées",
-    "Reviews are allowed only for completed jobs": "Les avis sont permis seulement pour les projets complétés",
-    "target_id and rating are required": "La cible et la note sont requises",
-    "target_id must be the other participant": "La cible doit être l'autre participant",
-    "You already have a pending proposal for this job": "Vous avez déjà une proposition en attente pour cette offre"
+    "Reviews are allowed only for completed jobs": "Les avis sont autorisés uniquement pour les jobs terminés",
+    "target_id and rating are required": "Utilisateur cible et note requis",
+    "target_id must be the other participant": "L'utilisateur cible doit être l'autre participant",
+    "You already have a pending proposal for this job": "Vous avez déjà une proposition en attente pour ce job"
   },
 
   "nav": {
-    "jobs": "Offres",
+    "jobs": "Jobs",
     "platform_stats": "Statistiques",
-    "my_postings": "Mes offres",
+    "my_postings": "Mes publications",
     "my_bids": "Mes propositions",
     "post_job": "Publier un job",
     "login": "Connexion",
@@ -42,72 +42,219 @@
     "submit": "Soumettre",
     "cancel": "Annuler",
     "loading": "Chargement...",
-    "confirm": "Confirmer"
+    "confirm": "Confirmer",
+    "any": "Tous"
   },
 
   "auth": {
-    "login_title": "Login",
-    "register_title": "Register",
+    "login_title": "Connexion",
+    "register_title": "Créer un compte",
 
-    "login_subtitle": "Access your SkillSwap account to manage jobs, proposals, and reviews.",
-    "register_subtitle": "Create your SkillSwap account to start working with clients and freelancers.",
+    "login_subtitle": "Accédez à votre compte SkillSwap pour gérer jobs, propositions et avis.",
+    "register_subtitle": "Créez votre compte SkillSwap pour commencer à travailler avec clients et freelances.",
 
     "fields": {
-      "name": "Name",
-      "username": "Username",
+      "name": "Nom",
+      "username": "Nom d'utilisateur",
       "email": "Email",
-      "password": "Password",
+      "password": "Mot de passe",
       "bio": "Bio",
-      "skills": "Skills"
+      "skills": "Compétences"
     },
 
     "placeholders": {
-      "email": "Enter your email",
-      "password": "Enter your password"
+      "email": "Entrez votre email",
+      "password": "Entrez votre mot de passe"
     },
 
-    "skills_hint": "Example: Angular, Node, UI Design",
+    "skills_hint": "Exemple : Angular, Node, UI Design",
 
     "actions": {
-      "login": "Login",
-      "register": "Register",
-      "go_login": "Login",
-      "go_register": "Create an account",
-      "logging_in": "Signing in...",
-      "registering": "Creating account..."
+      "login": "Connexion",
+      "register": "Créer un compte",
+      "go_login": "Se connecter",
+      "go_register": "Créer un compte",
+      "logging_in": "Connexion en cours...",
+      "registering": "Création du compte..."
     },
 
-    "register_prompt": "Don't have an account yet?",
-    "login_prompt": "Already have an account?",
+    "register_prompt": "Vous n'avez pas encore de compte ?",
+    "login_prompt": "Vous avez déjà un compte ?",
 
-    "username_suggestion": "Suggested username:",
+    "username_suggestion": "Nom d'utilisateur suggéré :",
 
     "validation": {
-      "name_required": "Name is required",
-      "name_minlength": "Name must contain at least 2 characters",
+      "name_required": "Le nom est requis",
+      "name_minlength": "Le nom doit contenir au moins 2 caractères",
 
-      "username_required": "Username is required",
-      "username_minlength": "Username must contain at least 3 characters",
+      "username_required": "Le nom d'utilisateur est requis",
+      "username_minlength": "Le nom d'utilisateur doit contenir au moins 3 caractères",
 
-      "email_required": "Email is required",
-      "email_invalid": "Enter a valid email address",
+      "email_required": "Email requis",
+      "email_invalid": "Entrez une adresse email valide",
 
-      "password_required": "Password is required",
-      "password_minlength": "Password must be at least 6 characters",
+      "password_required": "Mot de passe requis",
+      "password_minlength": "Le mot de passe doit contenir au moins 6 caractères",
 
-      "bio_required": "Bio is required",
-      "bio_minlength": "Bio must contain at least 10 characters",
+      "bio_required": "La bio est requise",
+      "bio_minlength": "La bio doit contenir au moins 10 caractères",
 
-      "skills_required": "At least one skill is required"
+      "skills_required": "Au moins une compétence est requise"
     }
   },
 
   "platform": {
     "stats": {
-      "loading": "Chargement des statistiques de la plateforme...",
-      "total_users": "Utilisateurs totaux",
+      "loading": "Chargement des statistiques...",
+      "total_users": "Utilisateurs",
       "active_jobs": "Jobs actifs",
-      "total_value_moved": "Valeur totale déplacée"
+      "total_value_moved": "Valeur totale échangée"
+    }
+  },
+
+  "jobs": {
+    "search_title": "Trouver des jobs",
+
+    "sections": {
+      "search": "Recherche de jobs",
+      "create": "Publier un job",
+      "edit": "Modifier le job",
+      "details": "Détails du job",
+      "my_jobs": "Mes jobs",
+      "my_postings": "Mes publications",
+      "owner": "Propriétaire",
+      "freelancer": "Freelance assigné",
+      "actions": "Actions"
+    },
+
+    "fields": {
+      "title": "Titre",
+      "description": "Description",
+      "budget": "Budget",
+      "category": "Catégorie",
+      "new_category": "Créer une nouvelle catégorie",
+      "status": "Statut",
+      "created_at": "Créé",
+      "updated_at": "Modifié",
+      "posted_by": "Publié par"
+    },
+
+    "status": {
+      "open": "Ouvert",
+      "in_progress": "En cours",
+      "completed": "Terminé",
+      "cancelled": "Annulé"
+    },
+
+    "actions": {
+      "search": "Rechercher",
+      "clear": "Effacer",
+      "create": "Créer le job",
+      "update": "Mettre à jour le job",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "apply": "Postuler",
+      "cancel": "Annuler",
+      "back": "Retour",
+      "view_details": "Voir les détails",
+      "view_proposals": "Voir les propositions",
+      "complete": "Terminer le job",
+      "leave_review": "Laisser un avis"
+    },
+
+    "messages": {
+      "no_results": "Aucun job trouvé",
+      "loading": "Chargement des jobs...",
+      "create_success": "Job créé avec succès",
+      "update_success": "Job mis à jour avec succès",
+      "delete_success": "Job supprimé avec succès",
+      "loading_details": "Chargement des détails du job...",
+      "owner_unavailable": "Informations du propriétaire indisponibles.",
+      "freelancer_unavailable": "Informations du freelance indisponibles."
+    },
+
+    "complete": {
+      "confirm_title": "Terminer le job",
+      "confirm_message": "Voulez-vous vraiment marquer ce job comme terminé ?"
+    },
+
+    "validation": {
+      "title_required": "Le titre est requis",
+      "title_minlength": "Le titre doit contenir au moins 3 caractères",
+      "description_required": "La description est requise",
+      "description_minlength": "La description doit contenir au moins 10 caractères",
+      "budget_required": "Le budget est requis",
+      "budget_min": "Le budget doit être supérieur à 0"
+    }
+  },
+
+  "proposals": {
+    "title": "Propositions",
+    "subtitle": "Consultez les propositions soumises pour ce job.",
+    "loading": "Chargement des propositions...",
+
+    "empty_title": "Aucune proposition",
+    "empty_message": "Aucune proposition pour ce job pour le moment.",
+
+    "fields": {
+      "price": "Prix"
+    },
+
+    "labels": {
+      "unknown_user": "Utilisateur inconnu"
+    },
+
+    "actions": {
+      "accept": "Accepter la proposition"
+    },
+
+    "accept": {
+      "confirm_title": "Accepter la proposition",
+      "confirm_message": "Accepter cette proposition fera passer le job en cours."
+    },
+
+    "status": {
+      "pending": "En attente",
+      "accepted": "Acceptée",
+      "rejected": "Refusée"
+    }
+  },
+
+  "reviews": {
+    "submit": {
+      "title": "Laisser un avis",
+      "subtitle": "Soumettez votre avis pour ce participant.",
+      "subtitle_for": "Soumettez votre avis pour"
+    },
+
+    "fields": {
+      "rating": "Note",
+      "message": "Message"
+    },
+
+    "placeholders": {
+      "message": "Écrivez un court avis..."
+    },
+
+    "actions": {
+      "submit": "Soumettre l'avis"
+    },
+
+    "validation": {
+      "rating_required": "La note est requise",
+      "rating_range": "La note doit être entre 1 et 5"
+    },
+
+    "user": {
+      "title": "Avis utilisateur",
+      "subtitle": "Avis reçus après des jobs terminés.",
+      "loading": "Chargement des avis...",
+      "empty_title": "Aucun avis",
+      "empty_message": "Cet utilisateur n'a pas encore d'avis."
+    },
+
+    "labels": {
+      "unknown_reviewer": "Évaluateur inconnu"
     }
   }
 }

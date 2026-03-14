@@ -1,1 +1,9 @@
-<p>job-create works!</p>
+<section class="job-create-page">
+
+  <app-job-form
+    mode="create"
+    [loading]="loading()"
+    (submitForm)="submit($event)">
+  </app-job-form>
+
+</section>

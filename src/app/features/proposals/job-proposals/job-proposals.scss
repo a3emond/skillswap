@@ -1,0 +1,15 @@
+:host {
+  display: contents;
+}
+
+.proposals-panel {
+  min-width: min(100%, 720px);
+}
+
+.proposal-card {
+  gap: .75rem;
+}
+
+.proposal-meta {
+  gap: 1rem;
+}

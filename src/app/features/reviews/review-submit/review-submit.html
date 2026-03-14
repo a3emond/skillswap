@@ -1,1 +1,76 @@
-<p>review-submit works!</p>
+<app-modal (close)="closeModal()">
+
+  <div class="review-submit card stack-lg">
+
+    <header class="stack-sm">
+      <h2>{{ 'reviews.submit.title' | t }}</h2>
+
+      @if (targetLabel) {
+        <p class="text-soft">
+          {{ 'reviews.submit.subtitle_for' | t }} {{ targetLabel }}
+        </p>
+      } @else {
+        <p class="text-soft">
+          {{ 'reviews.submit.subtitle' | t }}
+        </p>
+      }
+    </header>
+
+    @if (formErrors.length > 0) {
+      <app-form-error-summary [errors]="formErrors"></app-form-error-summary>
+    }
+
+    @if (apiErrorMessage()) {
+      <app-alert-error [message]="apiErrorMessage()"></app-alert-error>
+    }
+
+    <form
+      class="stack-md"
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      novalidate>
+
+      <div class="stack-xs">
+        <label>{{ 'reviews.fields.rating' | t }}</label>
+
+        <select formControlName="rating">
+          <option [value]="5">5</option>
+          <option [value]="4">4</option>
+          <option [value]="3">3</option>
+          <option [value]="2">2</option>
+          <option [value]="1">1</option>
+        </select>
+
+        @if (getRatingError()) {
+          <app-field-error [message]="getRatingError()"></app-field-error>
+        }
+      </div>
+
+      <div class="stack-xs">
+        <label>{{ 'reviews.fields.message' | t }}</label>
+
+        <textarea
+          rows="5"
+          formControlName="message"
+          [placeholder]="'reviews.placeholders.message' | t">
+        </textarea>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="submitDisabled()">
+
+        @if (loading()) {
+          <app-spinner [label]="'common.loading' | t"></app-spinner>
+        } @else {
+          {{ 'reviews.actions.submit' | t }}
+        }
+
+      </button>
+
+    </form>
+
+  </div>
+
+</app-modal>

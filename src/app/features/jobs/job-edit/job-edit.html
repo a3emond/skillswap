@@ -1,1 +1,10 @@
-<p>job-edit works!</p>
+<app-modal (close)="close()">
+
+  <app-job-form
+    mode="edit"
+    [job]="job"
+    [loading]="loading()"
+    (submitForm)="submit($event)">
+  </app-job-form>
+
+</app-modal>

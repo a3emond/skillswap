@@ -1,0 +1,13 @@
+:host {
+  display: contents;
+}
+
+.review-submit {
+  width: min(100%, 620px);
+  margin-inline: auto;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}

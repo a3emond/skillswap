@@ -1,1 +1,156 @@
-<p>job-search works!</p>
+<section class="job-search-page">
+
+  <div class="job-search-card card stack-lg animate-fade-in-up">
+
+    <header class="stack-sm">
+      <div class="inline">
+        <i class="icon fas fa-briefcase"></i>
+        <h1>{{ 'jobs.search_title' | t }}</h1>
+      </div>
+    </header>
+
+    @if (apiError()) {
+      <app-alert-error [message]="apiError()"></app-alert-error>
+    }
+
+    <form
+      class="stack-md"
+      [formGroup]="form"
+      (ngSubmit)="search()"
+      novalidate>
+
+      <div class="stack-xs">
+
+        <label>
+          {{ 'jobs.fields.category' | t }}
+        </label>
+
+        <select formControlName="category">
+
+          <option value="">
+            {{ 'common.any' | t }}
+          </option>
+
+          @if (!categories().length) {
+
+            <option disabled>
+              {{ 'common.loading' | t }}
+            </option>
+
+          } @else {
+
+            @for (cat of categories(); track cat) {
+
+              <option [value]="cat">
+                {{ cat }}
+              </option>
+
+            }
+
+          }
+
+        </select>
+
+      </div>
+
+      <div class="stack-xs">
+
+        <label>
+          {{ 'jobs.fields.status' | t }}
+        </label>
+
+        <select formControlName="status">
+
+          <option value="">
+            {{ 'common.any' | t }}
+          </option>
+
+          <option value="open">
+            {{ 'jobs.status.open' | t }}
+          </option>
+
+          <option value="in_progress">
+            {{ 'jobs.status.in_progress' | t }}
+          </option>
+
+          <option value="completed">
+            {{ 'jobs.status.completed' | t }}
+          </option>
+
+        </select>
+
+      </div>
+
+      <div class="stack-xs">
+
+        <label>
+          {{ 'jobs.fields.budget' | t }}
+        </label>
+
+        <input
+          type="number"
+          formControlName="min_budget"
+          min="0" />
+
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="loading()">
+
+        @if (loading()) {
+
+          <app-spinner [label]="'common.loading' | t"></app-spinner>
+
+        } @else {
+
+          {{ 'common.submit' | t }}
+
+        }
+
+      </button>
+
+    </form>
+
+    @if (hasResults()) {
+
+      <section class="job-results stack-md"> 
+
+        @for (job of jobs(); track job.id) {
+
+          <article
+            class="job-card card stack-xs"
+            (click)="openJob(job.id)">
+
+            <h3>{{ job.title }}</h3>
+
+            <p>{{ job.category }}</p>
+
+            <p class="text-soft">
+              {{ job.budget }}$
+            </p>
+
+            <p class="text-soft">
+              {{ job.status }}
+            </p>
+
+          </article>
+
+        }
+
+      </section>
+
+    }
+
+  </div>
+
+</section>
+
+@if (showDetails() && selectedJobId() !== null) {
+  <app-job-details
+    [jobId]="selectedJobId()!"
+    (close)="closeJob()"
+    (refreshed)="handleJobRefresh($event)">
+  </app-job-details>
+}

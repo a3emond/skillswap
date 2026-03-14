@@ -1,1 +1,286 @@
-<p>job-details works!</p>
+<app-modal (close)="closeModal()">
+
+  <div class="job-details stack-lg">
+
+    @if (loading()) {
+      <app-spinner [label]="'jobs.messages.loading_details' | t"></app-spinner>
+    }
+
+    @if (apiErrorMessage()) {
+      <app-alert-error [message]="apiErrorMessage()"></app-alert-error>
+    }
+
+    @if (job(); as currentJob) {
+
+      <!-- HEADER -->
+
+      <header class="stack-sm">
+
+        <div class="inline-between">
+
+          <div class="stack-xs">
+            <h2>{{ currentJob.title }}</h2>
+            <span class="pill">
+              {{ ('jobs.status.' + currentJob.status) | t }}
+            </span>
+          </div>
+
+          <div class="inline wrap">
+
+            @if (canComplete()) {
+              <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="actionLoading()"
+                (click)="askComplete()">
+                {{ 'jobs.actions.complete' | t }}
+              </button>
+            }
+
+            @if (canReview() && reviewTargetId() > 0) {
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="openReview()">
+                {{ 'jobs.actions.leave_review' | t }}
+              </button>
+            }
+
+          </div>
+
+        </div>
+
+        <p class="text-soft">
+          {{ currentJob.description }}
+        </p>
+
+      </header>
+
+      <hr>
+
+      <!-- META (ACCORDION) -->
+
+      <section class="accordion-section">
+
+        <button
+          type="button"
+          class="accordion-header inline-between"
+          (click)="toggleSection('meta')">
+
+          <h3>{{ 'jobs.sections.details' | t }}</h3>
+          <span>{{ isOpen('meta') ? '−' : '+' }}</span>
+
+        </button>
+
+        @if (isOpen('meta')) {
+
+          <div class="accordion-body job-meta grid-2">
+
+            <div class="card stack-xs">
+              <strong>{{ 'jobs.fields.budget' | t }}</strong>
+              <span>{{ currentJob.budget }}</span>
+            </div>
+
+            <div class="card stack-xs">
+              <strong>{{ 'jobs.fields.category' | t }}</strong>
+              <span>{{ currentJob.category }}</span>
+            </div>
+
+          </div>
+
+        }
+
+      </section>
+
+      <hr>
+
+      <!-- OWNER (ACCORDION) -->
+
+      <section class="accordion-section">
+
+        <button
+          type="button"
+          class="accordion-header inline-between"
+          (click)="toggleSection('owner')">
+
+          <h3>{{ 'jobs.sections.owner' | t }}</h3>
+          <span>{{ isOpen('owner') ? '−' : '+' }}</span>
+
+        </button>
+
+        @if (isOpen('owner')) {
+
+          <div class="accordion-body">
+
+            @if (currentJob.owner?.username || currentJob.owner?.name; as ownerName) {
+              <app-public-profile
+                [username]="ownerName"
+                [isModal]="false">
+              </app-public-profile>
+            } @else {
+              <p class="text-soft">
+                {{ 'jobs.messages.owner_unavailable' | t }}
+              </p>
+            }
+
+          </div>
+
+        }
+
+      </section>
+
+      <hr>
+
+      <!-- FREELANCER (ACCORDION) -->
+
+      <section class="accordion-section">
+
+        <button
+          type="button"
+          class="accordion-header inline-between"
+          (click)="toggleSection('freelancer')">
+
+          <h3>{{ 'jobs.sections.freelancer' | t }}</h3>
+          <span>{{ isOpen('freelancer') ? '−' : '+' }}</span>
+
+        </button>
+
+        @if (isOpen('freelancer')) {
+
+          <div class="accordion-body">
+
+            @if (currentJob.freelancer?.username || currentJob.freelancer?.name; as freelancerName) {
+              <app-public-profile
+                [username]="freelancerName"
+                [isModal]="false">
+              </app-public-profile>
+            } @else {
+              <p class="text-soft">
+                {{ 'jobs.messages.no_freelancer_yet' | t }}
+              </p>
+            }
+
+          </div>
+
+        }
+
+      </section>
+
+      <hr>
+
+      <!-- PROPOSALS (ACCORDION) -->
+
+      <section class="accordion-section">
+
+        <button
+          type="button"
+          class="accordion-header inline-between"
+          (click)="toggleSection('proposals')">
+
+          <h3>{{ 'proposals.title' | t }}</h3>
+          <span>{{ isOpen('proposals') ? '−' : '+' }}</span>
+
+        </button>
+
+        @if (isOpen('proposals')) {
+
+          <div class="accordion-body stack-md">
+
+            @if (proposalsErrorMessage()) {
+              <app-alert-error [message]="proposalsErrorMessage()"></app-alert-error>
+            }
+
+            @if (proposalsLoading()) {
+              <app-spinner [label]="'proposals.loading' | t"></app-spinner>
+            }
+
+            <!-- OWNER VIEW -->
+
+            @if (!proposalsLoading() && canViewOwnerProposals()) {
+
+              @if (ownerProposals().length > 0) {
+
+                <app-job-proposals
+                  [proposals]="ownerProposals()"
+                  [actionLabel]="'proposals.actions.accept'"
+                  [actionClass]="'btn btn-primary'"
+                  [actionLoading]="actionLoading()"
+                  (action)="askAccept($event)">
+                </app-job-proposals>
+
+              } @else {
+
+                <app-empty-state
+                  [title]="'proposals.empty_title' | t"
+                  [message]="'proposals.empty_message' | t">
+                </app-empty-state>
+
+              }
+
+            }
+
+            <!-- FREELANCER VIEW -->
+
+            @if (!proposalsLoading() && !isOwner()) {
+
+              @if (hasMyProposal()) {
+
+                <app-job-proposals
+                  [proposals]="[myProposal()!]"
+                  [actionLabel]="canDeleteMyProposal() ? 'proposals.actions.delete' : null"
+                  [actionClass]="'btn btn-danger'"
+                  [actionLoading]="actionLoading()"
+                  (action)="askDelete($event)">
+                </app-job-proposals>
+
+              } @else if (canSubmitProposal()) {
+
+                <app-proposal-create
+                  [jobId]="jobId"
+                  (submitted)="handleProposalSubmitted()">
+                </app-proposal-create>
+
+              } @else {
+
+                <p class="text-soft">
+                  {{ 'proposals.messages.closed_for_bids' | t }}
+                </p>
+
+              }
+
+            }
+
+          </div>
+
+        }
+
+      </section>
+
+    }
+
+  </div>
+
+  <!-- REVIEW MODAL -->
+
+  @if (showReview() && reviewTargetId() > 0) {
+    <app-review-submit
+      [jobId]="jobId"
+      [targetId]="reviewTargetId()"
+      [targetLabel]="reviewTargetName()"
+      (submitted)="handleReviewSubmitted()"
+      (close)="showReview.set(false)">
+    </app-review-submit>
+  }
+
+  <!-- CONFIRM DIALOG -->
+
+  @if (pendingAction()) {
+    <app-confirm-dialog
+      [title]="confirmTitle()"
+      [message]="confirmMessage()"
+      (confirm)="confirmAction()"
+      (cancel)="clearPendingAction()">
+    </app-confirm-dialog>
+  }
+
+</app-modal>

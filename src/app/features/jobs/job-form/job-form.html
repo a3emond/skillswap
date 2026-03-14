@@ -1,0 +1,117 @@
+<div class="job-form card stack-lg">
+
+  @if (formErrors.length > 0) {
+    <app-form-error-summary [errors]="formErrors"></app-form-error-summary>
+  }
+
+  <form
+    class="stack-md"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    novalidate>
+
+    <div class="stack-xs">
+
+      <label>{{ 'jobs.fields.title' | t }}</label>
+
+      <input
+        type="text"
+        formControlName="title" />
+
+      @if (getTitleError()) {
+        <app-field-error [message]="getTitleError()"></app-field-error>
+      }
+
+    </div>
+
+    <div class="stack-xs">
+
+      <label>{{ 'jobs.fields.description' | t }}</label>
+
+      <textarea
+        rows="5"
+        formControlName="description">
+      </textarea>
+
+      @if (getDescriptionError()) {
+        <app-field-error [message]="getDescriptionError()"></app-field-error>
+      }
+
+    </div>
+
+    <div class="stack-xs">
+
+      <label>{{ 'jobs.fields.budget' | t }}</label>
+
+      <input
+        type="number"
+        formControlName="budget"
+        min="1" />
+
+      @if (getBudgetError()) {
+        <app-field-error [message]="getBudgetError()"></app-field-error>
+      }
+
+    </div>
+
+    <div class="stack-xs">
+
+      <label>{{ 'jobs.fields.category' | t }}</label>
+
+      <select formControlName="category">
+
+        <option value="">
+          {{ 'common.any' | t }}
+        </option>
+
+        @for (cat of categories(); track cat) {
+          <option [value]="cat">{{ cat }}</option>
+        }
+
+      </select>
+
+      <input
+        type="text"
+        [value]="newCategory()"
+        (input)="newCategory.set($any($event.target).value)"
+        placeholder="{{ 'jobs.fields.new_category' | t }}" />
+
+    </div>
+
+    <div class="stack-xs">
+
+      <label>{{ 'jobs.fields.status' | t }}</label>
+
+      <select formControlName="status">
+
+        <option value="open">{{ 'jobs.status.open' | t }}</option>
+        <option value="in_progress">{{ 'jobs.status.in_progress' | t }}</option>
+        <option value="completed">{{ 'jobs.status.completed' | t }}</option>
+
+      </select>
+
+    </div>
+
+    <button
+      class="btn btn-primary"
+      type="submit"
+      [disabled]="submitDisabled()">
+
+      @if (loading) {
+
+        <app-spinner [label]="'common.loading' | t"></app-spinner>
+
+      } @else {
+
+        {{ mode === 'create'
+          ? ('jobs.actions.create' | t)
+          : ('jobs.actions.update' | t)
+        }}
+
+      }
+
+    </button>
+
+  </form>
+
+</div>

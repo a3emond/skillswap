@@ -1,1 +1,61 @@
-<p>job-proposals works!</p>
+<div class="stack-md">
+
+  @for (proposal of proposals; track proposal.id) {
+
+    <div class="stack-sm proposal-item">
+
+      <div class="inline-between">
+
+        <div class="stack-xs">
+
+          <button
+            type="button"
+            class="link-button job-link"
+            (click)="triggerJobClick(proposal.job_id)">
+            {{ 'jobs.actions.view_job' | t }} #{{ proposal.job_id }}
+          </button>
+
+          <strong>
+            {{ proposal.freelancer?.username
+               ?? proposal.freelancer?.name
+               ?? ('proposals.labels.unknown_user' | t) }}
+          </strong>
+
+        </div>
+
+        <span class="pill">
+          {{ ('proposals.status.' + proposal.status) | t }}
+        </span>
+
+      </div>
+
+      <div class="proposal-meta inline wrap">
+        <span>
+          <strong>{{ 'proposals.fields.price' | t }}:</strong>
+          {{ proposal.price }}
+        </span>
+      </div>
+
+      @if (proposal.cover_letter || proposal.message; as text) {
+        <p class="text-soft">{{ text }}</p>
+      }
+
+      @if (actionLabel) {
+
+        <button
+          type="button"
+          [class]="actionClass"
+          [disabled]="actionLoading"
+          (click)="triggerAction(proposal.id)">
+
+          {{ actionLabel | t }}
+
+        </button>
+
+      }
+
+    </div>
+
+  }
+
+</div>
