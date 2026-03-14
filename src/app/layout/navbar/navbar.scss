@@ -113,6 +113,28 @@
   background: var(--color-text);
 }
 
+.burger span {
+  height: 2px;
+  width: 22px;
+  background: var(--color-text);
+  transition: transform .28s ease, opacity .18s ease;
+
+  /* pivot ~2/3 of width */
+  transform-origin: 66% center;
+}
+
+.burger.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.burger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
 .burger-pill {
   position: absolute;
   top: 2px;
