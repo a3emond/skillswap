@@ -6,7 +6,7 @@
   </div>
 
   <ul>
-    @for (e of errors; track e) {
+    @for (e of errors; track $index) {
       <li>{{ e }}</li>
     }
   </ul>
