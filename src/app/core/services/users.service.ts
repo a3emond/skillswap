@@ -15,4 +15,8 @@ export class UsersService {
   getByUsername(username: string): Observable<User> {
     return this.api.get<User>(`/users/${encodeURIComponent(username)}`)
   }
+
+  getById(userId: number | string): Observable<User> {
+    return this.api.get<User>(`/users/${encodeURIComponent(String(userId))}`)
+  }
 }

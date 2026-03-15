@@ -1,4 +1,5 @@
 import { Component, Input, computed, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { forkJoin, of } from 'rxjs';
 
 import { ReviewsService } from '../../../core/services/reviews.service';
@@ -18,7 +19,7 @@ import { RatingStars } from '../../../shared/components/rating-stars/rating-star
 @Component({
   selector: 'app-job-reviews',
   standalone: true,
-  imports: [TranslatePipe, Spinner, AlertError, EmptyState, RatingStars],
+  imports: [TranslatePipe, DatePipe, Spinner, AlertError, EmptyState, RatingStars],
   templateUrl: './job-reviews.html',
   styleUrl: './job-reviews.scss',
 })
@@ -28,6 +29,8 @@ export class JobReviews {
 
   private readonly currentJob = signal<Job | null>(null);
   private readonly lastLoadKey = signal('');
+
+  @Input() showHeader = true;
 
   @Input({ required: true })
   set job(value: Job) {
@@ -80,7 +83,7 @@ export class JobReviews {
         next: (reviewLists) => {
           const matchingReviews = reviewLists
             .flat()
-            .filter((review) => review.job_id === job.id)
+            .filter((review) => String(review.job_id) === String(job.id))
             .filter(
               (review, index, reviews) =>
                 reviews.findIndex((candidate) => candidate.id === review.id) === index,
@@ -92,10 +95,16 @@ export class JobReviews {
               return rightDate - leftDate;
             });
 
-          this.reviews.set(matchingReviews);
+          const hydrated = matchingReviews.map((review) => ({
+            ...review,
+            reviewer: review.reviewer ?? this.resolveUserFromJob(review.reviewer_id),
+            target: review.target ?? this.resolveUserFromJob(review.target_id),
+          }));
+
+          this.reviews.set(hydrated);
           this.loading.set(false);
 
-          DevLogger.log('[JobReviews] loaded reviews', matchingReviews);
+          DevLogger.log('[JobReviews] loaded reviews', hydrated);
           DevLogger.groupEnd();
         },
         error: (error: ApiError) => {
@@ -105,5 +114,23 @@ export class JobReviews {
           DevLogger.groupEnd();
         },
       });
+  }
+
+  private resolveUserFromJob(userId: number | string | undefined) {
+    const job = this.currentJobValue();
+
+    if (!job || userId === undefined || userId === null) {
+      return undefined;
+    }
+
+    if (job.owner && String(job.owner_id) === String(userId)) {
+      return job.owner;
+    }
+
+    if (job.freelancer && String(job.freelancer_id) === String(userId)) {
+      return job.freelancer;
+    }
+
+    return undefined;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, inject, effect, computed } from '@angular/core'
-import { RouterLink, Router } from '@angular/router'
+import { RouterLink, RouterLinkActive, Router } from '@angular/router'
 import { CommonModule } from '@angular/common'
 
 import { TranslatePipe } from '../../core/i18n/translate.pipe'
@@ -15,6 +15,7 @@ import { DevLogger } from '../../core/utils/dev-logger'
   imports: [
     CommonModule,
     RouterLink,
+    RouterLinkActive,
     TranslatePipe
   ],
   templateUrl: './navbar.html',

@@ -4,17 +4,17 @@
 
     <div class="nav-links">
 
-      <a routerLink="/jobs" class="nav-link">
+      <a routerLink="/jobs" routerLinkActive="is-active" class="nav-link">
         {{ 'nav.jobs' | t }}
       </a>
 
-      <a routerLink="/platform/stats" class="nav-link">
+      <a routerLink="/platform/stats" routerLinkActive="is-active" class="nav-link">
         {{ 'nav.platform_stats' | t }}
       </a>
 
       @if (authenticated()) {
 
-        <a routerLink="/jobs/my-postings" class="nav-link">
+        <a routerLink="/jobs/my-postings" routerLinkActive="is-active" class="nav-link nav-link-pill">
           {{ 'nav.my_postings' | t }}
 
           @if (myJobsCount() > 0) {
@@ -22,7 +22,7 @@
           }
         </a>
 
-        <a routerLink="/proposals/my-bids" class="nav-link">
+        <a routerLink="/proposals/my-bids" routerLinkActive="is-active" class="nav-link nav-link-pill">
           {{ 'nav.my_bids' | t }}
 
           @if (myBidsCount() > 0) {
@@ -30,7 +30,7 @@
           }
         </a>
 
-        <a routerLink="/jobs/create" class="nav-link">
+        <a routerLink="/jobs/create" routerLinkActive="is-active" class="nav-link nav-link-primary">
           {{ 'nav.post_job' | t }}
         </a>
 
@@ -42,11 +42,11 @@
 
       @if (authenticated()) {
 
-        <span class="nav-user">
+        <span class="nav-user desktop-only">
           {{ 'nav.welcome' | t }} {{ user()?.name }}
         </span>
 
-        <a routerLink="/users/me" class="nav-link desktop-only">
+        <a routerLink="/users/me" routerLinkActive="is-active" class="nav-link desktop-only">
           {{ 'nav.profile' | t }}
         </a>
 
@@ -82,11 +82,13 @@
         class="burger"
         [class.open]="menuOpen"
         (click)="toggleMenu()"
+        [attr.aria-expanded]="menuOpen"
+        aria-controls="mobile-menu"
         aria-label="menu"
       >
-        <span></span>
-        <span></span>
-        <span></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
 
         @if (hasNotifications()) {
           <span class="burger-pill"></span>
@@ -99,21 +101,27 @@
 
   @if (menuOpen) {
 
-    <div class="mobile-menu">
+    <div id="mobile-menu" class="mobile-menu">
+
+      @if (authenticated()) {
+        <div class="menu-user">
+          {{ 'nav.welcome' | t }} {{ user()?.name }}
+        </div>
+      }
 
       <div class="menu-section">
 
-        <a routerLink="/jobs" (click)="closeMenu()">
+        <a routerLink="/jobs" routerLinkActive="is-active" (click)="closeMenu()">
           {{ 'nav.jobs' | t }}
         </a>
 
-        <a routerLink="/platform/stats" (click)="closeMenu()">
+        <a routerLink="/platform/stats" routerLinkActive="is-active" (click)="closeMenu()">
           {{ 'nav.platform_stats' | t }}
         </a>
 
         @if (authenticated()) {
 
-          <a routerLink="/jobs/my-postings" (click)="closeMenu()">
+          <a routerLink="/jobs/my-postings" routerLinkActive="is-active" (click)="closeMenu()">
             <span>{{ 'nav.my_postings' | t }}</span>
 
             @if (myJobsCount() > 0) {
@@ -121,7 +129,7 @@
             }
           </a>
 
-          <a routerLink="/proposals/my-bids" (click)="closeMenu()">
+          <a routerLink="/proposals/my-bids" routerLinkActive="is-active" (click)="closeMenu()">
             <span>{{ 'nav.my_bids' | t }}</span>
 
             @if (myBidsCount() > 0) {
@@ -129,11 +137,11 @@
             }
           </a>
 
-          <a routerLink="/jobs/create" (click)="closeMenu()">
+          <a routerLink="/jobs/create" routerLinkActive="is-active" (click)="closeMenu()">
             {{ 'nav.post_job' | t }}
           </a>
 
-          <a routerLink="/users/me" (click)="closeMenu()">
+          <a routerLink="/users/me" routerLinkActive="is-active" (click)="closeMenu()">
             {{ 'nav.profile' | t }}
           </a>
 
@@ -146,10 +154,6 @@
       <div class="menu-section">
 
         @if (authenticated()) {
-
-          <div class="menu-user">
-            {{ 'nav.welcome' | t }} {{ user()?.name }}
-          </div>
 
           <button type="button" class="menu-btn" (click)="logout()">
             {{ 'nav.logout' | t }}

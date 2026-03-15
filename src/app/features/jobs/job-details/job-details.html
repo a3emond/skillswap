@@ -36,7 +36,7 @@
 
         <p class="job-description">{{ currentJob.description }}</p>
 
-        @if (canComplete() || (canReview() && reviewTargetId() > 0)) {
+        @if (canComplete()) {
           <div class="inline wrap">
 
             @if (canComplete()) {
@@ -46,15 +46,6 @@
                 [disabled]="actionLoading()"
                 (click)="askComplete()">
                 {{ 'jobs.actions.complete' | t }}
-              </button>
-            }
-
-            @if (canReview() && reviewTargetId() > 0) {
-              <button
-                type="button"
-                class="btn btn-primary"
-                (click)="openReview()">
-                {{ 'jobs.actions.leave_review' | t }}
               </button>
             }
 
@@ -92,6 +83,20 @@
               <span class="meta-label">{{ 'jobs.fields.category' | t }}</span>
               <span>{{ currentJob.category }}</span>
             </p>
+
+            @if (currentJob.created_at) {
+              <p class="meta-row">
+                <span class="meta-label">{{ 'jobs.fields.created_at' | t }}</span>
+                <span>{{ currentJob.created_at | date:'medium' }}</span>
+              </p>
+            }
+
+            @if (currentJob.updated_at) {
+              <p class="meta-row">
+                <span class="meta-label">{{ 'jobs.fields.updated_at' | t }}</span>
+                <span>{{ currentJob.updated_at | date:'medium' }}</span>
+              </p>
+            }
 
           </div>
 
@@ -209,6 +214,9 @@
 
                 <app-job-proposals
                   [proposals]="ownerProposals()"
+                  [currentUserId]="currentUserId()"
+                  [currentUsername]="currentUser()?.username ?? ''"
+                  [showJobButton]="false"
                   [actionLabel]="'proposals.actions.accept'"
                   [actionClass]="'btn btn-primary'"
                   [actionLoading]="actionLoading()"
@@ -234,6 +242,9 @@
 
                 <app-job-proposals
                   [proposals]="[myProposal()!]"
+                  [currentUserId]="currentUserId()"
+                  [currentUsername]="currentUser()?.username ?? ''"
+                  [showJobButton]="false"
                   [actionLabel]="canDeleteMyProposal() ? 'proposals.actions.delete' : null"
                   [actionClass]="'btn btn-danger'"
                   [actionLoading]="actionLoading()"
@@ -244,7 +255,8 @@
 
                 <app-proposal-create
                   [jobId]="jobId"
-                  (submitted)="handleProposalSubmitted()">
+                  [jobTitle]="currentJob.title"
+                  (submitted)="handleProposalSubmitted($event)">
                 </app-proposal-create>
 
               } @else {
@@ -281,8 +293,20 @@
 
           @if (isOpen('reviews')) {
 
-            <div class="accordion-body">
-              <app-job-reviews [job]="currentJob"></app-job-reviews>
+            <div class="accordion-body stack-md">
+
+              @if (canReview()) {
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  (click)="openReview()">
+                  {{ 'jobs.actions.leave_review' | t }}
+                </button>
+              } @else if (hasSubmittedReview()) {
+                <p class="text-soft">{{ 'reviews.submit.already_submitted' | t }}</p>
+              }
+
+              <app-job-reviews [job]="currentJob" [showHeader]="false"></app-job-reviews>
             </div>
 
           }

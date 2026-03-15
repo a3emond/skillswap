@@ -34,11 +34,11 @@
         <label>{{ 'reviews.fields.rating' | t }}</label>
 
         <select formControlName="rating">
-          <option [value]="5">5</option>
-          <option [value]="4">4</option>
-          <option [value]="3">3</option>
-          <option [value]="2">2</option>
-          <option [value]="1">1</option>
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="4">4</option>
+          <option [ngValue]="3">3</option>
+          <option [ngValue]="2">2</option>
+          <option [ngValue]="1">1</option>
         </select>
 
         @if (getRatingError()) {

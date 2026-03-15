@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output, computed, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
-import { Job } from '../../../core/models/job.model';
+import { Job, JobStatus } from '../../../core/models/job.model';
 
 @Component({
   selector: 'app-job-list',
   standalone: true,
-  imports: [TranslatePipe],
+  imports: [TranslatePipe, DatePipe],
   templateUrl: './job-list.html',
   styleUrl: './job-list.scss',
 })
@@ -35,6 +36,18 @@ export class JobList {
   }
 
   @Output() jobClick = new EventEmitter<number>();
+  @Output() action = new EventEmitter<number>();
+
+  @Input() actionLabel: string | null = null;
+  @Input() actionClass = 'btn btn-secondary';
+  @Input() actionVisibleStatuses: JobStatus[] = [];
+  @Input() actionDisabledStatuses: JobStatus[] = [];
+  @Input() actionDisabledTitle: string | null = null;
+  @Input() actionLoadingId: number | null = null;
+  @Input() actionLabelResolver: ((job: Job) => string | null) | null = null;
+  @Input() actionClassResolver: ((job: Job) => string) | null = null;
+  @Input() actionDisabledResolver: ((job: Job) => boolean) | null = null;
+  @Input() actionTitleResolver: ((job: Job) => string | null) | null = null;
 
   readonly pageSize = signal<number>(10);
   readonly currentPage = signal(1);
@@ -85,6 +98,62 @@ export class JobList {
 
   openJob(jobId: number): void {
     this.jobClick.emit(jobId);
+  }
+
+  showAction(job: Job): boolean {
+    if (this.actionLabelResolver) {
+      return !!this.actionLabelResolver(job);
+    }
+
+    if (!this.actionLabel) {
+      return false;
+    }
+
+    if (this.actionVisibleStatuses.length === 0) {
+      return true;
+    }
+
+    return this.actionVisibleStatuses.includes(job.status);
+  }
+
+  isActionDisabled(job: Job): boolean {
+    if (this.actionDisabledResolver) {
+      return this.actionDisabledResolver(job);
+    }
+
+    return (
+      this.actionDisabledStatuses.includes(job.status) ||
+      this.actionLoadingId === job.id
+    );
+  }
+
+  actionLabelFor(job: Job): string | null {
+    if (this.actionLabelResolver) {
+      return this.actionLabelResolver(job);
+    }
+
+    return this.actionLabel;
+  }
+
+  actionClassFor(job: Job): string {
+    if (this.actionClassResolver) {
+      return this.actionClassResolver(job);
+    }
+
+    return this.actionClass;
+  }
+
+  actionTitleFor(job: Job): string | null {
+    if (this.actionTitleResolver) {
+      return this.actionTitleResolver(job);
+    }
+
+    return this.isActionDisabled(job) ? this.actionDisabledTitle : null;
+  }
+
+  triggerAction(event: Event, jobId: number): void {
+    event.stopPropagation();
+    this.action.emit(jobId);
   }
 
 }

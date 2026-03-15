@@ -4,6 +4,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 
 import { ProposalsService } from '../../../core/services/proposals.service';
+import { AuthStore } from '../../../core/auth/auth.store';
+import { NavbarStore } from '../../../core/navbar/navbar.store';
 import { I18nService } from '../../../core/i18n/i18n.service';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 
@@ -26,10 +28,13 @@ import { AlertError } from '../../../shared/components/alert-error/alert-error';
 export class ProposalCreate {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly proposalsService = inject(ProposalsService);
+  private readonly authStore = inject(AuthStore);
+  private readonly navbarStore = inject(NavbarStore);
   private readonly destroyRef = inject(DestroyRef);
   private readonly i18n = inject(I18nService);
 
   @Input({ required: true }) jobId!: number;
+  @Input() jobTitle = '';
 
   @Output() submitted = new EventEmitter<Proposal>();
   @Output() close = new EventEmitter<void>();
@@ -64,8 +69,26 @@ export class ProposalCreate {
       )
       .subscribe({
         next: (proposal) => {
+          const currentUser = this.authStore.user();
+          const enrichedProposal: Proposal = {
+            ...proposal,
+            job_id: proposal.job_id ?? this.jobId,
+            user_id: proposal.user_id ?? currentUser?.id,
+            freelancer_id: proposal.freelancer_id ?? currentUser?.id,
+            freelancer: proposal.freelancer ?? currentUser ?? undefined,
+            job:
+              proposal.job ??
+              (this.jobTitle
+                ? {
+                    id: this.jobId,
+                    title: this.jobTitle,
+                  }
+                : null),
+          };
+
           DevLogger.log('[ProposalCreate] created', proposal);
-          this.submitted.emit(proposal);
+          this.navbarStore.refresh();
+          this.submitted.emit(enrichedProposal);
         },
 
         error: (error: ApiError) => {

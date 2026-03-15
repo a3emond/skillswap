@@ -66,7 +66,34 @@
             <span class="meta-label">{{ 'jobs.fields.status' | t }}:</span>
             <span>{{ ('jobs.status.' + job.status) | t }}</span>
           </p>
+
+          @if (job.created_at) {
+            <p class="meta-row">
+              <span class="meta-label">{{ 'jobs.fields.created_at' | t }}:</span>
+              <span>{{ job.created_at | date:'medium' }}</span>
+            </p>
+          }
+
+          @if (job.updated_at) {
+            <p class="meta-row">
+              <span class="meta-label">{{ 'jobs.fields.updated_at' | t }}:</span>
+              <span>{{ job.updated_at | date:'medium' }}</span>
+            </p>
+          }
         </div>
+
+        @if (showAction(job) && actionLabelFor(job); as resolvedActionLabel) {
+          <div class="job-card-actions">
+            <button
+              type="button"
+              [class]="actionClassFor(job)"
+              [disabled]="isActionDisabled(job)"
+              [attr.title]="actionTitleFor(job)"
+              (click)="triggerAction($event, job.id)">
+              {{ resolvedActionLabel | t }}
+            </button>
+          </div>
+        }
 
       </article>
 

@@ -5,6 +5,7 @@ import { JobUpdateDto } from '../../../core/models/dto/job-update.dto';
 import { ApiError } from '../../../core/http/api-error.model';
 
 import { JobsService } from '../../../core/services/jobs.service';
+import { NavbarStore } from '../../../core/navbar/navbar.store';
 import { DevLogger } from '../../../core/utils/dev-logger';
 
 import { Modal } from '../../../shared/components/modal/modal';
@@ -19,6 +20,7 @@ import { JobForm, JobFormValue } from '../job-form/job-form';
 })
 export class JobEdit {
   private readonly jobsService = inject(JobsService);
+  private readonly navbarStore = inject(NavbarStore);
 
   @Input({ required: true }) job!: Job;
 
@@ -44,6 +46,7 @@ export class JobEdit {
 
     this.jobsService.update(this.job.id, dto).subscribe({
       next: (updated) => {
+        this.navbarStore.refresh();
         this.updated.emit(updated);
         this.closed.emit();
       },

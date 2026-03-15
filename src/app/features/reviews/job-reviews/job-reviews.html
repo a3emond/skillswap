@@ -1,9 +1,11 @@
 <section class="job-reviews stack-lg">
 
-  <header class="stack-sm">
-    <h3>{{ 'reviews.job.title' | t }}</h3>
-    <p class="text-soft">{{ 'reviews.job.subtitle' | t }}</p>
-  </header>
+  @if (showHeader) {
+    <header class="stack-sm">
+      <h3>{{ 'reviews.job.title' | t }}</h3>
+      <p class="text-soft">{{ 'reviews.job.subtitle' | t }}</p>
+    </header>
+  }
 
   @if (loading()) {
     <app-spinner [label]="'reviews.job.loading' | t"></app-spinner>
@@ -28,20 +30,26 @@
           <div class="inline-between review-heading">
             <div class="stack-xs">
               <strong>
-                {{ review.reviewer?.username ?? review.reviewer?.name ?? ('reviews.labels.unknown_reviewer' | t) }}
+                {{ review.reviewer?.username ?? review.reviewer?.name ?? (('reviews.labels.reviewer_id' | t) + ' ' + review.reviewer_id) }}
               </strong>
 
               <span class="text-soft review-target">
                 {{ 'reviews.labels.for_user' | t }}
-                {{ review.target?.username ?? review.target?.name ?? ('reviews.labels.unknown_target' | t) }}
+                {{ review.target?.username ?? review.target?.name ?? (('reviews.labels.target_id' | t) + ' ' + review.target_id) }}
               </span>
             </div>
 
             <app-rating-stars [rating]="review.rating"></app-rating-stars>
           </div>
 
-          @if (review.message) {
-            <p class="text-soft">{{ review.message }}</p>
+          @if (review.comment || review.message; as text) {
+            <p class="text-soft">{{ text }}</p>
+          }
+
+          @if (review.created_at) {
+            <p class="text-soft">
+              {{ 'reviews.labels.created_at' | t }}: {{ review.created_at | date:'medium' }}
+            </p>
           }
 
         </article>

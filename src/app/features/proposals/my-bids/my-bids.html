@@ -25,10 +25,12 @@
 
       <app-job-proposals
         [proposals]="bids()"
-        [actionLabel]="'proposals.actions.delete'"
-        [actionClass]="'btn btn-danger'"
+        [currentUserId]="currentUser()?.id ?? 0"
+        [currentUsername]="currentUser()?.username ?? ''"
+        [actionLabelResolver]="actionLabelResolver"
+        [actionClassResolver]="actionClassResolver"
         [actionLoading]="actionLoading()"
-        (action)="askDelete($event)"
+        (action)="askProposalAction($event)"
         (jobClick)="openJob($event)">
       </app-job-proposals>
 
@@ -46,11 +48,22 @@
 </section>
 
 @if (selectedJobId()) {
-  <app-job-details
-    [jobId]="selectedJobId()!"
-    (close)="selectedJobId.set(null)">
-  </app-job-details>
+  <app-modal (close)="closeJob()">
+    <app-job-details
+      [jobId]="selectedJobId()!"
+      (close)="closeJob()">
+    </app-job-details>
+  </app-modal>
+}
 
+@if (reviewDraft(); as draft) {
+  <app-review-submit
+    [jobId]="draft.jobId"
+    [targetId]="draft.targetId"
+    [targetLabel]="draft.targetLabel"
+    (submitted)="handleReviewSubmitted()"
+    (close)="clearReviewDraft()">
+  </app-review-submit>
 }
 
 @if (pendingAction()) {

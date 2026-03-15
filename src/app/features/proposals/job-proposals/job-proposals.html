@@ -8,17 +8,17 @@
 
         <div class="stack-xs">
 
-          <button
-            type="button"
-            class="link-button job-link"
-            (click)="triggerJobClick(proposal.job_id)">
-            {{ 'jobs.actions.view_job' | t }} #{{ proposal.job_id }}
-          </button>
+          @if (showJobButton) {
+            <button
+              type="button"
+              class="link-button job-link"
+              (click)="triggerJobClick(proposal.job_id)">
+              {{ 'jobs.actions.view_job' | t }} {{ proposalJobTitle(proposal) }}
+            </button>
+          }
 
           <strong>
-            {{ proposal.freelancer?.username
-               ?? proposal.freelancer?.name
-               ?? ('proposals.labels.unknown_user' | t) }}
+            {{ proposalUserLabel(proposal) }}
           </strong>
 
         </div>
@@ -34,21 +34,44 @@
           <strong>{{ 'proposals.fields.price' | t }}:</strong>
           {{ proposal.price }}
         </span>
+
+        @if (proposal.created_at) {
+          <span class="text-soft">
+            <strong>{{ 'proposals.fields.created_at' | t }}:</strong>
+            {{ proposal.created_at | date:'medium' }}
+          </span>
+        }
+
+        @if (proposal.updated_at) {
+          <span class="text-soft">
+            <strong>{{ 'proposals.fields.updated_at' | t }}:</strong>
+            {{ proposal.updated_at | date:'medium' }}
+          </span>
+        }
+
+        @if (allowProfileModal && profileUsername(proposal)) {
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            (click)="openProfile(proposal)">
+            {{ 'proposals.actions.view_profile' | t }}
+          </button>
+        }
       </div>
 
       @if (proposal.cover_letter || proposal.message; as text) {
         <p class="text-soft">{{ text }}</p>
       }
 
-      @if (actionLabel) {
+      @if (proposalActionLabel(proposal); as resolvedActionLabel) {
 
         <button
           type="button"
-          [class]="actionClass"
-          [disabled]="actionLoading"
+          [class]="proposalActionClass(proposal)"
+          [disabled]="isActionDisabled(proposal)"
           (click)="triggerAction(proposal.id)">
 
-          {{ actionLabel | t }}
+          {{ resolvedActionLabel | t }}
 
         </button>
 
@@ -59,3 +82,12 @@
   }
 
 </div>
+
+@if (hasModalProfile()) {
+  <app-modal (close)="closeProfileModal()">
+    <app-public-profile
+      [username]="selectedProfileUsername()!"
+      [isModal]="false">
+    </app-public-profile>
+  </app-modal>
+}

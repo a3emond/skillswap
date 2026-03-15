@@ -1,4 +1,5 @@
 import { Component, DestroyRef, Input, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 
@@ -18,7 +19,7 @@ import { RatingStars } from '../../../shared/components/rating-stars/rating-star
 @Component({
   selector: 'app-user-reviews',
   standalone: true,
-  imports: [TranslatePipe, Spinner, AlertError, EmptyState, RatingStars],
+  imports: [TranslatePipe, DatePipe, Spinner, AlertError, EmptyState, RatingStars],
   templateUrl: './user-reviews.html',
   styleUrl: './user-reviews.scss',
 })
@@ -53,7 +54,7 @@ export class UserReviews {
       )
       .subscribe({
         next: (reviews) => {
-          this.reviews.set(reviews);
+          this.reviews.set(reviews ?? []);
           DevLogger.log('[UserReviews] loaded reviews', reviews);
         },
         error: (error: ApiError) => {

@@ -47,8 +47,8 @@ export class ReviewSubmit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly i18n = inject(I18nService);
 
-  @Input({ required: true }) jobId!: number;
-  @Input({ required: true }) targetId!: number;
+  @Input({ required: true }) jobId!: number | string;
+  @Input({ required: true }) targetId!: number | string;
   @Input() targetLabel = '';
 
   @Output() submitted = new EventEmitter<void>();
@@ -77,10 +77,19 @@ export class ReviewSubmit {
 
     const raw = this.form.getRawValue();
 
+    const rating = Number(raw.rating);
+
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+      this.apiErrorMessage.set(this.i18n.t('reviews.validation.rating_range'));
+      DevLogger.groupEnd();
+      return;
+    }
+
     const dto: ReviewCreateDto = {
       target_id: this.targetId,
-      rating: raw.rating,
+      rating,
       message: raw.message || undefined,
+      comment: raw.message || undefined,
     };
 
     this.loading.set(true);

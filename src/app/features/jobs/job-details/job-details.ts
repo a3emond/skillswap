@@ -13,7 +13,10 @@ import { finalize } from 'rxjs';
 
 import { JobsService } from '../../../core/services/jobs.service';
 import { ProposalsService } from '../../../core/services/proposals.service';
+import { ReviewsService } from '../../../core/services/reviews.service';
 import { AuthStore } from '../../../core/auth/auth.store';
+import { NavbarStore } from '../../../core/navbar/navbar.store';
+import { DatePipe } from '@angular/common';
 
 import { ApiError } from '../../../core/http/api-error.model';
 import { DevLogger } from '../../../core/utils/dev-logger';
@@ -42,6 +45,7 @@ type SectionKey = 'meta' | 'owner' | 'freelancer' | 'proposals' | 'reviews';
   selector: 'app-job-details',
   standalone: true,
   imports: [
+    DatePipe,
     TranslatePipe,
     Spinner,
     AlertError,
@@ -59,7 +63,9 @@ type SectionKey = 'meta' | 'owner' | 'freelancer' | 'proposals' | 'reviews';
 export class JobDetails {
   private readonly jobsService = inject(JobsService);
   private readonly proposalsService = inject(ProposalsService);
+  private readonly reviewsService = inject(ReviewsService);
   private readonly authStore = inject(AuthStore);
+  private readonly navbarStore = inject(NavbarStore);
   private readonly destroyRef = inject(DestroyRef);
   private readonly i18n = inject(I18nService);
 
@@ -84,6 +90,7 @@ export class JobDetails {
   readonly pendingAction = signal<PendingAction>(null);
 
   readonly showReview = signal(false);
+  readonly hasSubmittedReview = signal(false);
 
   readonly currentUser = computed(() => this.authStore.user());
   readonly currentUserId = computed(() => this.currentUser()?.id ?? 0);
@@ -129,13 +136,19 @@ export class JobDetails {
 
   readonly canReview = computed(() => {
     const job = this.job();
-    return !!job && job.status === 'completed' && (this.isOwner() || this.isAssignedFreelancer());
+    return (
+      !!job &&
+      job.status === 'completed' &&
+      (this.isOwner() || this.isAssignedFreelancer()) &&
+      this.reviewTargetId() > 0 &&
+      !this.hasSubmittedReview()
+    );
   });
 
   readonly canShowReviews = computed(() => {
     const job = this.job();
 
-    return !!job && job.status === 'completed';
+    return !!job && job.status === 'completed' && (this.isOwner() || this.isAssignedFreelancer());
   });
 
   readonly reviewTargetId = computed(() => {
@@ -242,6 +255,7 @@ export class JobDetails {
           DevLogger.log('[JobDetails] loaded job', job);
 
           this.loadProposalState();
+          this.loadMyReviewStatus();
         },
         error: (error: ApiError) => {
           this.apiErrorMessage.set(this.i18n.error(error.message));
@@ -323,8 +337,12 @@ export class JobDetails {
     DevLogger.groupEnd();
   }
 
-  handleProposalSubmitted(): void {
-    this.loadProposalState();
+  handleProposalSubmitted(proposal?: Proposal): void {
+    if (proposal) {
+      this.myBids.update((existing) => [proposal, ...existing.filter((item) => item.id !== proposal.id)]);
+    }
+
+    this.loadMyBids();
   }
 
   askAccept(proposalId: number): void {
@@ -395,6 +413,7 @@ export class JobDetails {
       .subscribe({
         next: () => {
           DevLogger.log('[JobDetails] proposal accepted', proposal.id);
+          this.navbarStore.refresh();
           this.loadPage();
         },
         error: (error: ApiError) => {
@@ -430,6 +449,7 @@ export class JobDetails {
       .subscribe({
         next: () => {
           DevLogger.log('[JobDetails] proposal deleted', proposal.id);
+          this.navbarStore.refresh();
           this.loadProposalState();
         },
         error: (error: ApiError) => {
@@ -442,6 +462,10 @@ export class JobDetails {
   }
 
   openReview(): void {
+    if (!this.canReview()) {
+      return;
+    }
+
     this.showReview.set(true);
   }
 
@@ -467,6 +491,7 @@ export class JobDetails {
 
           DevLogger.log('[JobDetails] completed job', job);
 
+          this.navbarStore.refresh();
           this.loadPage();
         },
         error: (error: ApiError) => {
@@ -485,6 +510,33 @@ export class JobDetails {
 
   handleReviewSubmitted(): void {
     this.showReview.set(false);
+    this.hasSubmittedReview.set(true);
     this.loadPage();
+  }
+
+  loadMyReviewStatus(): void {
+    const targetId = this.reviewTargetId();
+    const reviewerId = this.currentUserId();
+
+    if (!this.canShowReviews() || targetId <= 0 || reviewerId <= 0) {
+      this.hasSubmittedReview.set(false);
+      return;
+    }
+
+    this.reviewsService
+      .getForUser(targetId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (reviews) => {
+          const alreadySubmitted = (reviews ?? []).some(
+            (review) => review.job_id === this.jobId && String(review.reviewer_id) === String(reviewerId),
+          );
+
+          this.hasSubmittedReview.set(alreadySubmitted);
+        },
+        error: () => {
+          this.hasSubmittedReview.set(false);
+        },
+      });
   }
 }

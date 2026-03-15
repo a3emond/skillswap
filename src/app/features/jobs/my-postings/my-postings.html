@@ -3,7 +3,7 @@
 	<header class="stack-xs">
 		<h1>{{ 'jobs.sections.my_postings' | t }}</h1>
 		<p class="text-soft">
-			{{ 'jobs.messages.loading' | t }}
+			{{ 'jobs.sections.my_postings_subtitle' | t }}
 		</p>
 	</header>
 
@@ -25,6 +25,12 @@
 
 			<app-job-list
 				[jobs]="jobs()"
+				[actionLabelResolver]="actionLabelResolver"
+				[actionClassResolver]="actionClassResolver"
+				[actionDisabledResolver]="actionDisabledResolver"
+				[actionTitleResolver]="actionTitleResolver"
+				[actionLoadingId]="actionLoadingJobId()"
+				(action)="askJobAction($event)"
 				(jobClick)="openJob($event)">
 			</app-job-list>
 
@@ -49,4 +55,23 @@
 			(refreshed)="handleJobRefresh($event)">
 		</app-job-details>
 	</app-modal>
+}
+
+@if (pendingCompleteJob()) {
+	<app-confirm-dialog
+		[title]="'jobs.complete.confirm_title' | t"
+		[message]="'jobs.complete.confirm_message' | t"
+		(confirm)="confirmAction()"
+		(cancel)="clearPendingAction()">
+	</app-confirm-dialog>
+}
+
+@if (reviewDraft(); as draft) {
+	<app-review-submit
+		[jobId]="draft.jobId"
+		[targetId]="draft.targetId"
+		[targetLabel]="draft.targetLabel"
+		(submitted)="handleReviewSubmitted()"
+		(close)="clearReviewDraft()">
+	</app-review-submit>
 }

@@ -10,7 +10,7 @@ import { ReviewsListDto } from '../models/dto/reviews-list.dto'
 export class ReviewsService {
   constructor(private readonly api: ApiClient) {}
 
-  create(jobId: number, dto: ReviewCreateDto): Observable<Review> {
+  create(jobId: number | string, dto: ReviewCreateDto): Observable<Review> {
     return this.api.post<Review>(`/jobs/${jobId}/reviews`, dto)
   }
 

@@ -27,14 +27,20 @@
 
           <div class="inline-between">
             <strong>
-              {{ review.reviewer?.username ?? review.reviewer?.name ?? ('reviews.labels.unknown_reviewer' | t) }}
+              {{ review.reviewer?.username ?? review.reviewer?.name ?? (('reviews.labels.reviewer_id' | t) + ' ' + review.reviewer_id) }}
             </strong>
 
             <app-rating-stars [rating]="review.rating"></app-rating-stars>
           </div>
 
-          @if (review.message) {
-            <p class="text-soft">{{ review.message }}</p>
+          @if (review.comment || review.message; as text) {
+            <p class="text-soft">{{ text }}</p>
+          }
+
+          @if (review.created_at) {
+            <p class="text-soft">
+              {{ 'reviews.labels.created_at' | t }}: {{ review.created_at | date:'medium' }}
+            </p>
           }
 
         </article>
