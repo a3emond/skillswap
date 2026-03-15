@@ -8,6 +8,8 @@ import { ApiError } from '../../../core/http/api-error.model'
 import { User } from '../../../core/models/user.model'
 import { DevLogger } from '../../../core/utils/dev-logger'
 
+import { TranslatePipe } from '../../../core/i18n/translate.pipe'
+
 import { Spinner } from '../../../shared/components/spinner/spinner'
 import { AlertError } from '../../../shared/components/alert-error/alert-error'
 import { EmptyState } from '../../../shared/components/empty-state/empty-state'
@@ -20,7 +22,8 @@ import { RatingStars } from '../../../shared/components/rating-stars/rating-star
     Spinner,
     AlertError,
     EmptyState,
-    RatingStars
+    RatingStars,
+    TranslatePipe
   ],
   templateUrl: './profile-me.html',
   styleUrl: './profile-me.scss'

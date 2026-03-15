@@ -285,5 +285,15 @@
       "unknown_target": "Unknown user",
       "for_user": "For"
     }
+  },
+
+  "users": {
+    "profile": {
+      "loading": "Loading profile...",
+      "unavailable_title": "Profile unavailable",
+      "unavailable_message": "Your profile could not be loaded.",
+      "completed_jobs": "completed jobs",
+      "skills": "Skills"
+    }
   }
 }

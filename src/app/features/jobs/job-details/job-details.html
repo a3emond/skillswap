@@ -12,17 +12,31 @@
 
       <!-- HEADER -->
 
-      <header class="stack-sm">
+      <header class="job-details-header stack-sm">
 
-        <div class="inline-between">
+        <div class="inline-between wrap">
 
           <div class="stack-xs">
-            <h2>{{ currentJob.title }}</h2>
-            <span class="pill">
-              {{ ('jobs.status.' + currentJob.status) | t }}
+            <span class="job-category text-soft">
+              <i class="icon fas fa-briefcase"></i>
+              {{ currentJob.category }}
             </span>
+            <h2 class="job-title">{{ currentJob.title }}</h2>
           </div>
 
+          <span
+            class="status-pill"
+            [class.status-open]="currentJob.status === 'open'"
+            [class.status-in-progress]="currentJob.status === 'in_progress'"
+            [class.status-completed]="currentJob.status === 'completed'">
+            {{ ('jobs.status.' + currentJob.status) | t }}
+          </span>
+
+        </div>
+
+        <p class="job-description">{{ currentJob.description }}</p>
+
+        @if (canComplete() || (canReview() && reviewTargetId() > 0)) {
           <div class="inline wrap">
 
             @if (canComplete()) {
@@ -45,16 +59,9 @@
             }
 
           </div>
-
-        </div>
-
-        <p class="text-soft">
-          {{ currentJob.description }}
-        </p>
+        }
 
       </header>
-
-      <hr>
 
       <!-- META (ACCORDION) -->
 
@@ -66,31 +73,31 @@
           (click)="toggleSection('meta')">
 
           <h3>{{ 'jobs.sections.details' | t }}</h3>
-          <span>{{ isOpen('meta') ? '−' : '+' }}</span>
+          <i class="icon fas accordion-icon"
+            [class.fa-chevron-down]="!isOpen('meta')"
+            [class.fa-chevron-up]="isOpen('meta')"></i>
 
         </button>
 
         @if (isOpen('meta')) {
 
-          <div class="accordion-body job-meta grid-2">
+          <div class="accordion-body stack-xs">
 
-            <div class="card stack-xs">
-              <strong>{{ 'jobs.fields.budget' | t }}</strong>
-              <span>{{ currentJob.budget }}</span>
-            </div>
+            <p class="meta-row">
+              <span class="meta-label">{{ 'jobs.fields.budget' | t }}</span>
+              <span>${{ currentJob.budget }}</span>
+            </p>
 
-            <div class="card stack-xs">
-              <strong>{{ 'jobs.fields.category' | t }}</strong>
+            <p class="meta-row">
+              <span class="meta-label">{{ 'jobs.fields.category' | t }}</span>
               <span>{{ currentJob.category }}</span>
-            </div>
+            </p>
 
           </div>
 
         }
 
       </section>
-
-      <hr>
 
       <!-- OWNER (ACCORDION) -->
 
@@ -102,7 +109,9 @@
           (click)="toggleSection('owner')">
 
           <h3>{{ 'jobs.sections.owner' | t }}</h3>
-          <span>{{ isOpen('owner') ? '−' : '+' }}</span>
+          <i class="icon fas accordion-icon"
+            [class.fa-chevron-down]="!isOpen('owner')"
+            [class.fa-chevron-up]="isOpen('owner')"></i>
 
         </button>
 
@@ -127,8 +136,6 @@
 
       </section>
 
-      <hr>
-
       <!-- FREELANCER (ACCORDION) -->
 
       <section class="accordion-section">
@@ -139,7 +146,9 @@
           (click)="toggleSection('freelancer')">
 
           <h3>{{ 'jobs.sections.freelancer' | t }}</h3>
-          <span>{{ isOpen('freelancer') ? '−' : '+' }}</span>
+          <i class="icon fas accordion-icon"
+            [class.fa-chevron-down]="!isOpen('freelancer')"
+            [class.fa-chevron-up]="isOpen('freelancer')"></i>
 
         </button>
 
@@ -164,8 +173,6 @@
 
       </section>
 
-      <hr>
-
       <!-- PROPOSALS (ACCORDION) -->
 
       <section class="accordion-section">
@@ -176,7 +183,9 @@
           (click)="toggleSection('proposals')">
 
           <h3>{{ 'proposals.title' | t }}</h3>
-          <span>{{ isOpen('proposals') ? '−' : '+' }}</span>
+          <i class="icon fas accordion-icon"
+            [class.fa-chevron-down]="!isOpen('proposals')"
+            [class.fa-chevron-up]="isOpen('proposals')"></i>
 
         </button>
 
@@ -256,8 +265,6 @@
 
       @if (canShowReviews()) {
 
-        <hr>
-
         <section class="accordion-section">
 
           <button
@@ -266,7 +273,9 @@
             (click)="toggleSection('reviews')">
 
             <h3>{{ 'reviews.job.title' | t }}</h3>
-            <span>{{ isOpen('reviews') ? '−' : '+' }}</span>
+            <i class="icon fas accordion-icon"
+              [class.fa-chevron-down]="!isOpen('reviews')"
+              [class.fa-chevron-up]="isOpen('reviews')"></i>
 
           </button>
 

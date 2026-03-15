@@ -9,6 +9,8 @@ import { User } from '../../../core/models/user.model';
 
 import { DevLogger } from '../../../core/utils/dev-logger';
 
+import { TranslatePipe } from '../../../core/i18n/translate.pipe';
+
 import { Modal } from '../../../shared/components/modal/modal';
 import { Spinner } from '../../../shared/components/spinner/spinner';
 import { AlertError } from '../../../shared/components/alert-error/alert-error';
@@ -17,7 +19,7 @@ import { RatingStars } from '../../../shared/components/rating-stars/rating-star
 @Component({
   selector: 'app-public-profile',
   standalone: true,
-  imports: [Modal, Spinner, AlertError, RatingStars, NgTemplateOutlet],
+  imports: [Modal, Spinner, AlertError, RatingStars, NgTemplateOutlet, TranslatePipe],
   templateUrl: './public-profile.html',
   styleUrl: './public-profile.scss',
 })

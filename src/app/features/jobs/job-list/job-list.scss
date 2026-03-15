@@ -41,8 +41,64 @@
 
 .job-card {
 	cursor: pointer;
+  border-left: 4px solid var(--color-border);
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .job-card:hover {
-	transform: translateY(-2px);
+  transform: translateY(-2px);
+  border-left-color: var(--color-primary);
+}
+
+.job-card-head h3 {
+  margin: 0;
+}
+
+.job-meta {
+  gap: 0.35rem;
+}
+
+.meta-row {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.meta-label {
+  color: var(--color-text-soft);
+  font-weight: var(--font-weight-semibold);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: var(--font-weight-semibold);
+  padding: 0.2rem 0.6rem;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.status-open {
+  background: color-mix(in oklab, #2e9f63 16%, white);
+  border-color: color-mix(in oklab, #2e9f63 45%, white);
+  color: #17623a;
+}
+
+.status-in-progress {
+  background: color-mix(in oklab, #2a78c9 16%, white);
+  border-color: color-mix(in oklab, #2a78c9 45%, white);
+  color: #184f89;
+}
+
+.status-completed {
+  background: color-mix(in oklab, #7666d8 16%, white);
+  border-color: color-mix(in oklab, #7666d8 45%, white);
+  color: #43379b;
 }

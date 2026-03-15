@@ -1,1 +1,52 @@
-<p>my-postings works!</p>
+<section class="stack-lg">
+
+	<header class="stack-xs">
+		<h1>{{ 'jobs.sections.my_postings' | t }}</h1>
+		<p class="text-soft">
+			{{ 'jobs.messages.loading' | t }}
+		</p>
+	</header>
+
+	@if (loading()) {
+		<app-spinner
+			[label]="'jobs.messages.loading' | t">
+		</app-spinner>
+	}
+
+	@if (apiErrorMessage()) {
+		<app-alert-error
+			[message]="apiErrorMessage()">
+		</app-alert-error>
+	}
+
+	@if (!loading()) {
+
+		@if (jobs().length > 0) {
+
+			<app-job-list
+				[jobs]="jobs()"
+				(jobClick)="openJob($event)">
+			</app-job-list>
+
+		} @else {
+
+			<app-empty-state
+				[title]="'jobs.messages.no_results' | t"
+				[message]="'jobs.messages.no_results' | t">
+			</app-empty-state>
+
+		}
+
+	}
+
+</section>
+
+@if (selectedJobId()) {
+	<app-modal (close)="closeJob()">
+		<app-job-details
+			[jobId]="selectedJobId()!"
+			(close)="closeJob()"
+			(refreshed)="handleJobRefresh($event)">
+		</app-job-details>
+	</app-modal>
+}

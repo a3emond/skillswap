@@ -1,84 +1,101 @@
 @if (hasResults()) {
 
-	<section class="job-results stack-md">
+  <section class="job-results stack-md">
 
-		<div class="results-toolbar inline-between">
+    <div class="results-toolbar inline-between">
 
-			<p class="text-soft results-count">
-				{{ totalResults() }} {{ 'jobs.pagination.results' | t }}
-			</p>
+      <p class="text-soft results-count">
+        {{ totalResults() }} {{ 'jobs.pagination.results' | t }}
+      </p>
 
-			<div class="inline page-size-picker">
+      <div class="inline page-size-picker">
 
-				<label for="job-page-size">
-					{{ 'jobs.pagination.per_page' | t }}
-				</label>
+        <label for="job-page-size">
+          {{ 'jobs.pagination.per_page' | t }}
+        </label>
 
-				<select
-					id="job-page-size"
-					[value]="pageSize()"
-					(change)="onPageSizeChange($event)">
+        <select
+          id="job-page-size"
+          [value]="pageSize()"
+          (change)="onPageSizeChange($event)">
 
-					@for (size of pageSizeOptions; track size) {
+          @for (size of pageSizeOptions; track size) {
 
-						<option [value]="size">
-							{{ size }}
-						</option>
+            <option [value]="size">
+              {{ size }}
+            </option>
 
-					}
+          }
 
-				</select>
+        </select>
 
-			</div>
+      </div>
 
-		</div>
+    </div>
 
-		@for (job of pagedJobs(); track job.id) {
+    @for (job of pagedJobs(); track job.id) {
 
-			<article
-				class="job-card card stack-xs"
-				(click)="openJob(job.id)">
+      <article
+        class="job-card card stack-xs"
+        (click)="openJob(job.id)">
 
-				<h3>{{ job.title }}</h3>
+        <div class="inline-between job-card-head">
+          <h3>{{ job.title }}</h3>
 
-				<p>{{ job.category }}</p>
+          <span
+            class="status-pill"
+            [class.status-open]="job.status === 'open'"
+            [class.status-in-progress]="job.status === 'in_progress'"
+            [class.status-completed]="job.status === 'completed'">
+            {{ ('jobs.status.' + job.status) | t }}
+          </span>
+        </div>
 
-				<p class="text-soft">
-					{{ job.budget }}$
-				</p>
+        <div class="stack-xs job-meta">
+          <p class="meta-row">
+            <span class="meta-label">{{ 'jobs.fields.category' | t }}:</span>
+            <span>{{ job.category }}</span>
+          </p>
 
-				<p class="text-soft">
-					{{ job.status }}
-				</p>
+          <p class="meta-row">
+            <span class="meta-label">{{ 'jobs.fields.budget' | t }}:</span>
+            <span>{{ job.budget }}$</span>
+          </p>
 
-			</article>
+          <p class="meta-row">
+            <span class="meta-label">{{ 'jobs.fields.status' | t }}:</span>
+            <span>{{ ('jobs.status.' + job.status) | t }}</span>
+          </p>
+        </div>
 
-		}
+      </article>
 
-		<div class="pagination-controls inline-between">
+    }
 
-			<button
-				type="button"
-				class="btn btn-secondary"
-				[disabled]="!canGoPrevious()"
-				(click)="goToPreviousPage()">
-				{{ 'jobs.pagination.previous' | t }}
-			</button>
+    <div class="pagination-controls inline-between">
 
-			<p class="text-soft pagination-status">
-				{{ 'jobs.pagination.page' | t }} {{ currentPage() }} / {{ totalPages() }}
-			</p>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        [disabled]="!canGoPrevious()"
+        (click)="goToPreviousPage()">
+        {{ 'jobs.pagination.previous' | t }}
+      </button>
 
-			<button
-				type="button"
-				class="btn btn-secondary"
-				[disabled]="!canGoNext()"
-				(click)="goToNextPage()">
-				{{ 'jobs.pagination.next' | t }}
-			</button>
+      <p class="text-soft pagination-status">
+        {{ 'jobs.pagination.page' | t }} {{ currentPage() }} / {{ totalPages() }}
+      </p>
 
-		</div>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        [disabled]="!canGoNext()"
+        (click)="goToNextPage()">
+        {{ 'jobs.pagination.next' | t }}
+      </button>
 
-	</section>
+    </div>
+
+  </section>
 
 }

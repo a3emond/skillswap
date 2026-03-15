@@ -285,5 +285,15 @@
       "unknown_target": "Utilisateur inconnu",
       "for_user": "Pour"
     }
+  },
+
+  "users": {
+    "profile": {
+      "loading": "Chargement du profil...",
+      "unavailable_title": "Profil indisponible",
+      "unavailable_message": "Votre profil n'a pas pu être chargé.",
+      "completed_jobs": "jobs terminés",
+      "skills": "Compétences"
+    }
   }
 }

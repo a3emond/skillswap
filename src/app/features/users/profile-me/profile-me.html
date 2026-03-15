@@ -3,7 +3,7 @@
   @let u = user();
 
   @if (loading()) {
-    <app-spinner label="Loading profile..."></app-spinner>
+    <app-spinner [label]="'users.profile.loading' | t"></app-spinner>
   }
 
   @if (apiErrorMessage()) {
@@ -12,45 +12,59 @@
 
   @if (!loading() && !u && !apiErrorMessage()) {
     <app-empty-state
-      title="Profile unavailable"
-      message="Your profile could not be loaded.">
+      [title]="'users.profile.unavailable_title' | t"
+      [message]="'users.profile.unavailable_message' | t">
     </app-empty-state>
   }
 
   @if (u) {
 
-    <div class="card stack-md profile-card">
+    <div class="card profile-card stack-md">
 
-      <header class="stack-xs profile-header">
-        <h2>{{ u.name }}</h2>
-        <span class="text-soft">@{{ u.username }}</span>
+      <header class="profile-header inline">
+
+        <span class="profile-avatar">{{ u.name.charAt(0).toUpperCase() }}</span>
+
+        <div class="stack-xs">
+          <h2 class="profile-name">{{ u.name }}</h2>
+          <span class="profile-username text-soft">
+            <i class="icon fas fa-at"></i>{{ u.username }}
+          </span>
+        </div>
+
       </header>
 
-      <p class="text-soft profile-bio">
-        {{ u.bio }}
-      </p>
+      @if (u.bio) {
+        <p class="profile-bio">{{ u.bio }}</p>
+      }
 
-      <div class="inline profile-stats">
+      <div class="profile-stats inline">
 
         <app-rating-stars
           [rating]="u.rating_avg ?? 0">
         </app-rating-stars>
 
-        <span class="text-soft">
-          {{ u.completed_jobs ?? 0 }} completed jobs
+        <span class="stat-item text-soft">
+          <i class="icon fas fa-briefcase"></i>
+          {{ u.completed_jobs ?? 0 }} {{ 'users.profile.completed_jobs' | t }}
         </span>
 
       </div>
 
       @if (u.skills.length > 0) {
 
-        <div class="skills-container">
+        <div class="profile-skills stack-xs">
 
-          @for (skill of u.skills; track skill) {
-            <span class="skill-chip">
-              {{ skill }}
-            </span>
-          }
+          <span class="skills-label text-soft">
+            <i class="icon fas fa-tags"></i>
+            {{ 'users.profile.skills' | t }}
+          </span>
+
+          <div class="skills-list">
+            @for (skill of u.skills; track skill) {
+              <span class="skill-chip">{{ skill }}</span>
+            }
+          </div>
 
         </div>
 
