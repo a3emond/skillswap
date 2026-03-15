@@ -1,6 +1,4 @@
-<app-modal (close)="closeModal()">
-
-  <div class="job-details stack-lg">
+<div class="job-details stack-lg">
 
     @if (loading()) {
       <app-spinner [label]="'jobs.messages.loading_details' | t"></app-spinner>
@@ -274,13 +272,11 @@
 
   <!-- CONFIRM DIALOG -->
 
-  @if (pendingAction()) {
-    <app-confirm-dialog
-      [title]="confirmTitle()"
-      [message]="confirmMessage()"
-      (confirm)="confirmAction()"
-      (cancel)="clearPendingAction()">
-    </app-confirm-dialog>
-  }
-
-</app-modal>
+@if (pendingAction()) {
+  <app-confirm-dialog
+    [title]="confirmTitle()"
+    [message]="confirmMessage()"
+    (confirm)="confirmAction()"
+    (cancel)="clearPendingAction()">
+  </app-confirm-dialog>
+}

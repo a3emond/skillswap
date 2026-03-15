@@ -16,19 +16,19 @@ import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 
 import { AlertError } from '../../../shared/components/alert-error/alert-error';
 import { Spinner } from '../../../shared/components/spinner/spinner';
+import { Modal } from '../../../shared/components/modal/modal';
 
 import { JobDetails } from '../job-details/job-details';
+import { JobList } from '../job-list/job-list';
 
 @Component({
   selector: 'app-job-search',
   standalone: true,
-  imports: [ReactiveFormsModule, TranslatePipe, AlertError, Spinner, JobDetails],
+  imports: [ReactiveFormsModule, TranslatePipe, AlertError, Spinner, Modal, JobDetails, JobList],
   templateUrl: './job-search.html',
   styleUrl: './job-search.scss',
 })
 export class JobSearch {
-  readonly pageSizeOptions = [10, 20, 50] as const;
-
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly jobsService = inject(JobsService);
   private readonly destroyRef = inject(DestroyRef);
@@ -37,8 +37,6 @@ export class JobSearch {
   readonly loading = signal(false);
   readonly apiError = signal('');
   readonly jobs = signal<Job[]>([]);
-  readonly pageSize = signal<number>(10);
-  readonly currentPage = signal(1);
   readonly selectedJobId = signal<number | null>(null);
 
   readonly categories = this.jobsService.categories;
@@ -49,22 +47,6 @@ export class JobSearch {
     min_budget: [0],
   });
 
-  readonly totalResults = computed(() => this.jobs().length);
-  readonly totalPages = computed(() => {
-    const pages = Math.ceil(this.totalResults() / this.pageSize());
-
-    return Math.max(1, pages);
-  });
-  readonly hasResults = computed(() => this.totalResults() > 0);
-  readonly pagedJobs = computed(() => {
-    const page = this.currentPage();
-    const pageSize = this.pageSize();
-    const start = (page - 1) * pageSize;
-
-    return this.jobs().slice(start, start + pageSize);
-  });
-  readonly canGoPrevious = computed(() => this.currentPage() > 1);
-  readonly canGoNext = computed(() => this.currentPage() < this.totalPages());
   readonly showDetails = computed(() => this.selectedJobId() !== null);
 
 
@@ -107,7 +89,6 @@ export class JobSearch {
           DevLogger.log('[JobSearch] results', jobs);
 
           this.jobs.set(jobs);
-          this.currentPage.set(1);
 
           DevLogger.groupEnd();
         },
@@ -141,36 +122,6 @@ export class JobSearch {
     this.jobs.update((list) => list.map((job) => (job.id === updated.id ? updated : job)));
   }
 
-  // Handles page-size changes for client-side pagination
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-
-    if (!this.pageSizeOptions.includes(value as (typeof this.pageSizeOptions)[number])) {
-      return;
-    }
-
-    this.pageSize.set(value);
-    this.currentPage.set(1);
-  }
-
-  // Moves pagination to the previous page
-  goToPreviousPage(): void {
-    if (!this.canGoPrevious()) {
-      return;
-    }
-
-    this.currentPage.update((page) => page - 1);
-  }
-
-  // Moves pagination to the next page
-  goToNextPage(): void {
-    if (!this.canGoNext()) {
-      return;
-    }
-
-    this.currentPage.update((page) => page + 1);
-  }
-
   // Loads initial categories and jobs
   private bootstrapCategories(): void {
     const dto: JobSearchDto = {};
@@ -181,7 +132,6 @@ export class JobSearch {
       .subscribe({
         next: (jobs) => {
           this.jobs.set(jobs);
-          this.currentPage.set(1);
         },
 
         error: (error: ApiError) => {

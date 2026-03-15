@@ -46,7 +46,6 @@
 </section>
 
 @if (selectedJobId()) {
-
   <app-job-details
     [jobId]="selectedJobId()!"
     (close)="selectedJobId.set(null)">

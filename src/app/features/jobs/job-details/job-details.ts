@@ -24,7 +24,6 @@ import { Proposal } from '../../../core/models/proposal.model';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { I18nService } from '../../../core/i18n/i18n.service';
 
-import { Modal } from '../../../shared/components/modal/modal';
 import { Spinner } from '../../../shared/components/spinner/spinner';
 import { AlertError } from '../../../shared/components/alert-error/alert-error';
 import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm-dialog';
@@ -43,7 +42,6 @@ type SectionKey = 'meta' | 'owner' | 'freelancer' | 'proposals';
   standalone: true,
   imports: [
     TranslatePipe,
-    Modal,
     Spinner,
     AlertError,
     ConfirmDialog,
@@ -475,10 +473,6 @@ export class JobDetails {
   clearPendingAction(): void {
     this.pendingAction.set(null);
     this.selectedProposal.set(null);
-  }
-
-  closeModal(): void {
-    this.close.emit();
   }
 
   handleReviewSubmitted(): void {
