@@ -58,6 +58,7 @@
       "username": "Nom d'utilisateur",
       "email": "Email",
       "password": "Mot de passe",
+      "confirm_password": "Confirmer le mot de passe",
       "bio": "Bio",
       "skills": "Compétences"
     },
