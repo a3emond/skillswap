@@ -272,8 +272,18 @@
       "empty_message": "Cet utilisateur n'a pas encore d'avis."
     },
 
+    "job": {
+      "title": "Avis du job",
+      "subtitle": "Avis laissés par les participants pour ce job terminé.",
+      "loading": "Chargement des avis du job...",
+      "empty_title": "Aucun avis pour ce job",
+      "empty_message": "Aucun avis n'a encore été laissé pour ce job."
+    },
+
     "labels": {
-      "unknown_reviewer": "Évaluateur inconnu"
+      "unknown_reviewer": "Évaluateur inconnu",
+      "unknown_target": "Utilisateur inconnu",
+      "for_user": "Pour"
     }
   }
 }

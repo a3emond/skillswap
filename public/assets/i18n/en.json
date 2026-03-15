@@ -272,8 +272,18 @@
       "empty_message": "This user has no reviews yet."
     },
 
+    "job": {
+      "title": "Job Reviews",
+      "subtitle": "Reviews left by participants on this completed job.",
+      "loading": "Loading job reviews...",
+      "empty_title": "No job reviews",
+      "empty_message": "No reviews have been left for this job yet."
+    },
+
     "labels": {
-      "unknown_reviewer": "Unknown reviewer"
+      "unknown_reviewer": "Unknown reviewer",
+      "unknown_target": "Unknown user",
+      "for_user": "For"
     }
   }
 }

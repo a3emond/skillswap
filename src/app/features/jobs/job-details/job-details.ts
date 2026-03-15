@@ -32,10 +32,11 @@ import { EmptyState } from '../../../shared/components/empty-state/empty-state';
 import { PublicProfile } from '../../users/public-profile/public-profile';
 import { JobProposals } from '../../proposals/job-proposals/job-proposals';
 import { ProposalCreate } from '../../proposals/proposal-create/proposal-create';
+import { JobReviews } from '../../reviews/job-reviews/job-reviews';
 import { ReviewSubmit } from '../../reviews/review-submit/review-submit';
 
 type PendingAction = 'accept' | 'delete' | 'complete' | null;
-type SectionKey = 'meta' | 'owner' | 'freelancer' | 'proposals';
+type SectionKey = 'meta' | 'owner' | 'freelancer' | 'proposals' | 'reviews';
 
 @Component({
   selector: 'app-job-details',
@@ -49,6 +50,7 @@ type SectionKey = 'meta' | 'owner' | 'freelancer' | 'proposals';
     PublicProfile,
     JobProposals,
     ProposalCreate,
+    JobReviews,
     ReviewSubmit,
   ],
   templateUrl: './job-details.html',
@@ -128,6 +130,12 @@ export class JobDetails {
   readonly canReview = computed(() => {
     const job = this.job();
     return !!job && job.status === 'completed' && (this.isOwner() || this.isAssignedFreelancer());
+  });
+
+  readonly canShowReviews = computed(() => {
+    const job = this.job();
+
+    return !!job && job.status === 'completed';
   });
 
   readonly reviewTargetId = computed(() => {

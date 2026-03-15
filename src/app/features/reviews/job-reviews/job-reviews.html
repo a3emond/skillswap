@@ -1,0 +1,52 @@
+<section class="job-reviews stack-lg">
+
+  <header class="stack-sm">
+    <h3>{{ 'reviews.job.title' | t }}</h3>
+    <p class="text-soft">{{ 'reviews.job.subtitle' | t }}</p>
+  </header>
+
+  @if (loading()) {
+    <app-spinner [label]="'reviews.job.loading' | t"></app-spinner>
+  }
+
+  @if (apiErrorMessage()) {
+    <app-alert-error [message]="apiErrorMessage()"></app-alert-error>
+  }
+
+  @if (!loading() && !hasResults()) {
+    <app-empty-state
+      [title]="'reviews.job.empty_title' | t"
+      [message]="'reviews.job.empty_message' | t">
+    </app-empty-state>
+  }
+
+  @if (!loading() && hasResults()) {
+    <div class="stack-md">
+      @for (review of reviews(); track review.id) {
+        <article class="card stack-sm review-card">
+
+          <div class="inline-between review-heading">
+            <div class="stack-xs">
+              <strong>
+                {{ review.reviewer?.username ?? review.reviewer?.name ?? ('reviews.labels.unknown_reviewer' | t) }}
+              </strong>
+
+              <span class="text-soft review-target">
+                {{ 'reviews.labels.for_user' | t }}
+                {{ review.target?.username ?? review.target?.name ?? ('reviews.labels.unknown_target' | t) }}
+              </span>
+            </div>
+
+            <app-rating-stars [rating]="review.rating"></app-rating-stars>
+          </div>
+
+          @if (review.message) {
+            <p class="text-soft">{{ review.message }}</p>
+          }
+
+        </article>
+      }
+    </div>
+  }
+
+</section>

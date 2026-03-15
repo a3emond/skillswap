@@ -254,6 +254,34 @@
 
       </section>
 
+      @if (canShowReviews()) {
+
+        <hr>
+
+        <section class="accordion-section">
+
+          <button
+            type="button"
+            class="accordion-header inline-between"
+            (click)="toggleSection('reviews')">
+
+            <h3>{{ 'reviews.job.title' | t }}</h3>
+            <span>{{ isOpen('reviews') ? '−' : '+' }}</span>
+
+          </button>
+
+          @if (isOpen('reviews')) {
+
+            <div class="accordion-body">
+              <app-job-reviews [job]="currentJob"></app-job-reviews>
+            </div>
+
+          }
+
+        </section>
+
+      }
+
     }
 
   </div>
