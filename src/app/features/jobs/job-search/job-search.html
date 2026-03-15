@@ -117,7 +117,38 @@
 
       <section class="job-results stack-md"> 
 
-        @for (job of jobs(); track job.id) {
+        <div class="results-toolbar inline-between">
+
+          <p class="text-soft results-count">
+            {{ totalResults() }} {{ 'jobs.pagination.results' | t }}
+          </p>
+
+          <div class="inline page-size-picker">
+
+            <label for="job-page-size">
+              {{ 'jobs.pagination.per_page' | t }}
+            </label>
+
+            <select
+              id="job-page-size"
+              [value]="pageSize()"
+              (change)="onPageSizeChange($event)">
+
+              @for (size of pageSizeOptions; track size) {
+
+                <option [value]="size">
+                  {{ size }}
+                </option>
+
+              }
+
+            </select>
+
+          </div>
+
+        </div>
+
+        @for (job of pagedJobs(); track job.id) {
 
           <article
             class="job-card card stack-xs"
@@ -138,6 +169,30 @@
           </article>
 
         }
+
+        <div class="pagination-controls inline-between">
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            [disabled]="!canGoPrevious()"
+            (click)="goToPreviousPage()">
+            {{ 'jobs.pagination.previous' | t }}
+          </button>
+
+          <p class="text-soft pagination-status">
+            {{ 'jobs.pagination.page' | t }} {{ currentPage() }} / {{ totalPages() }}
+          </p>
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            [disabled]="!canGoNext()"
+            (click)="goToNextPage()">
+            {{ 'jobs.pagination.next' | t }}
+          </button>
+
+        </div>
 
       </section>
 

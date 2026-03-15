@@ -174,6 +174,14 @@
       "no_freelancer_yet" : "There is no accepted proposal yet!"
     },
 
+    "pagination": {
+      "results": "results",
+      "per_page": "Results per page",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page"
+    },
+
     "complete": {
       "confirm_title": "Complete job",
       "confirm_message": "Are you sure you want to mark this job as completed?"
